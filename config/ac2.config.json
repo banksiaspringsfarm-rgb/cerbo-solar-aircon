@@ -1,0 +1,80 @@
+{
+  "_comment": "AC v2 (Faikout) controller config. Every threshold lives here. Units: %, W, degC, seconds unless the key says otherwise. Times are farm-local HH:MM (AEST, no DST). See docs/CONTROL-LOGIC.md for what each one does.",
+
+  "faikout_host": "daikin1",
+  "dry_run": true,
+  "tz_offset_min": 600,
+
+  "stale": {
+    "solar_max_age_s": 120,
+    "ac_max_age_s": 300,
+    "presence_max_age_s": 900,
+    "ac_draw_max_age_s": 300
+  },
+
+  "time_lockout": { "start_hhmm": "05:00", "end_hhmm": "18:00" },
+  "window": { "end_before_sunset_min": 90, "fallback_end_hhmm": "16:00" },
+
+  "battery": { "soc_floor_pct": 75, "boost_soc_floor_pct": 75 },
+  "sensors": {
+               "_note": "owner 15 Oct: run the room off the aircon sensor (the kitchen/lounge is the room to heat; the bedroom probe reads 4-7 C high and the bedroom is warmer with people asleep). Measured 14-15 Oct vs five Inkbirds: aircon sensor +0.3 C with the fan running; idle it drifts to +3.9 C over ~12 min. The Tuya probe is only a fallback if the aircon is unreachable (probe_fallback).",
+               "ac_idle_offset_c": -3.9,
+               "ac_idle_ramp_min": 12,
+                "ac_heat_offset_c": -2.0,
+                "heat_setpoint_add_c": 2,
+                "cool_setpoint_add_c": 0,
+                "_setpoint_add": "Setpoints are ROOM temperatures (Inkbird 4). Added to what is sent to the unit because its own sensor reads high: heating +2.0 C measured 15 Oct (one morning; refine from the Sunday calibration report). Cooling not measured yet.",
+               "probe_fallback": false,
+               "probe_offset_c": -6.5,
+               "probe_max_age_s": 600
+             },
+  "load": { "cap_w": 4200, "hw_drawing_w": 100, "ac_est_draw_w": 700, "fan_est_draw_w": 30 },
+
+  "presence": { "required": true, "soak_when_away": true, "hand_change_home_h": 4,
+                "_hand_change_home_h": "A change at the unit (remote) counts as someone home for this many hours: phones in airplane mode read as away (owner 20 Oct). 0 = off." },
+
+  "season": {
+    "mode": "auto",
+    "cool_months": [11, 12, 1, 2, 3],
+    "heat_months": [5, 6, 7, 8, 9],
+    "shoulder_cool_if_home_above_c": 27,
+    "shoulder_cool_day_max_c": 27,
+    "_shoulder": "Apr/Oct: a cooling day only if the forecast max is >= 27 or the room starts above 27 (both 24 before the 26 C target, 21 Oct), so heating to 26 is not undone by solar pre-cooling to 24.",
+    "cold_outside_c": 18,
+    "cold_day_max_c": 20,
+    "warm_outside_c": 26,
+    "warm_day_max_c": 28,
+    "_cold_outside": "owner 15 Oct: cold outside -> want it warmer inside. Below these, a room under heat comfort - 1 (22 C) counts as cold and heats (on the usual battery/solar rules)."
+  },
+
+  "setpoints": {
+    "_note": "owner 2026-10-13: acceptable household range 19-26 C; 22-23 when there is power for it. 15 Oct heat raised to his 22-23 (room temps, Inkbird 4): battery 22, comfort 23, soak 24. Hot water has priority over the aircon. 21 Oct Owner: make the house sit around 26 C: heat comfort 26 (heats below 25 on a cold day, below 24 any day), soak 27, battery 25; cooling moved up to match (comfort 26, starts above 28) so heating to 26 never trips the cool side.",
+    "cool": { "need_above_c": 28, "comfort_c": 26, "soak_c": 24, "battery_c": 26, "eco_c": 27 },
+    "heat": { "need_below_c": 24, "comfort_c": 26, "soak_c": 27, "battery_c": 25, "eco_c": 24 }
+  },
+
+  "tiers": {
+    "soak":    { "enabled": true,  "soc_on": 97, "soc_off": 93, "surplus_on_w": 1500, "surplus_off_w": 600, "curtailed_counts": true, "demand": 100, "econo": false },
+    "comfort": { "enabled": true,  "soc_on": 90, "soc_off": 85, "surplus_on_w": 900,  "surplus_off_w": 300, "curtailed_counts": true, "demand": 100, "econo": false },
+    "morning": { "enabled": true,  "start_hhmm": "05:00", "end_hhmm": "08:00", "soc_on": 80, "soc_off": 75, "demand": 100, "econo": false },
+    "dry":     { "enabled": true,  "hum_on": 65, "hum_off": 55, "soc_on": 90, "soc_off": 85, "surplus_on_w": 700, "surplus_off_w": 200, "curtailed_counts": true, "min_room_c": 19, "demand": 100, "econo": false },
+    "eco":     { "enabled": false, "soc_on": 85, "soc_off": 80, "demand": 50, "econo": true },
+    "evening":   { "enabled": true, "until_hhmm": "20:00", "soc_on": 87, "soc_off": 85, "demand": 100, "econo": false },
+    "night":     { "enabled": true, "soc_on": 87, "soc_off": 85, "hot_above_c": 28.5, "cold_below_c": 18.5, "demand": 100, "econo": false },
+    "night_fan": { "enabled": true, "above_c": 22, "fan": "Q", "hum_above": 65, "min_room_c": 17},
+    "fresh_air": { "enabled": true, "fan": "Q", "when_away": true, "_note": "owner 18 Oct: fresh-air fan whenever the aircon is not heating/cooling/drying, day and night, home or away, no temperature stops (for now; the logs show how often the room leaves the band)." },
+    "arrival":   { "enabled": true, "window_min": 45, "soc_on": 85, "soc_off": 85, "band_c": 1, "demand": 100, "econo": false }
+  },
+
+  "forecast": { "enabled": true, "max_age_h": 12, "hot_day_c": 30, "mild_day_c": 24, "cold_day_c": 14, "warm_winter_day_c": 20, "dull_mj": 12,
+                "hot_soak_soc_on": 93, "hot_soak_surplus_on_w": 1000, "hot_need_above_c": 27, "dull_comfort_soc_add": 3 },
+  "budget": { "hw_priority": true, "hw_reserve_w": 3200, "hw_on_surplus_w": 1800, "hw_soc_on": 80 },
+
+  "sustain": { "on_s": 90, "off_s": 180 },
+  "cycle": { "min_run_s": 1200, "min_off_s": 600, "setpoint_min_interval_s": 600 },
+  "commands": { "reassert_s": 120, "use_demand": "auto", "fan": "A" },
+  "manual": { "detect_grace_s": 120, "hold_min": 60, "settle_s": 60, "guards_in_hold": ["soc_floor", "load_cap", "night_soc"] },
+  "boost": { "default_min": 120, "max_min": 360 },
+  "presets": { "names": ["warm", "cool", "fresh", "off"], "default_min": 60, "warm_room_c": 26, "cool_room_c": 21, "fresh_fan": "Q",
+               "_note": "owner 18 Oct: one-tap presets for 1 h (like a hand change), then AUTO. warm = heat the room to 24 C (the unit shows Heat 26), cool = cool to 21 C, fresh = fan only, off = off. Battery floor still cuts warm/cool."}
+}

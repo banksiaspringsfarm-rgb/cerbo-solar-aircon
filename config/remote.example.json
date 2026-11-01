@@ -1,0 +1,12 @@
+{
+  "_note": "Copy to config/remote.json. Tailscale devices allowed to press the aircon presets (scripts/ac2_remote.py): name -> its Tailscale address (fixed per device; `tailscale status` lists them). dashboard_hosts = extra names/addresses the dashboard page may be opened at (the Mac's LAN addresses).",
+  "allowed": {
+    "my-phone": "100.64.0.11",
+    "other-mac": "100.64.0.12",
+    "home-mac": "100.64.0.13"
+  },
+  "dashboard_hosts": [
+    "192.168.1.50",
+    "192.168.1.51"
+  ]
+}

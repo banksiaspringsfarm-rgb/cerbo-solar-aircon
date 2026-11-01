@@ -1,0 +1,37 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Build-time config. The token is the shared secret the farm's receiver checks
+// (scripts/ac2_homecoming.py). Put HOMECOMING_TOKEN=... and HOMECOMING_URL=... in local.properties (gitignored).
+def localProps = new Properties()
+def localPropsFile = rootProject.file('local.properties')
+if (localPropsFile.exists()) localPropsFile.withInputStream { localProps.load(it) }
+def homecomingToken = project.findProperty('HOMECOMING_TOKEN') ?: localProps.getProperty('HOMECOMING_TOKEN', '')
+def homecomingUrl = project.findProperty('HOMECOMING_URL') ?: localProps.getProperty('HOMECOMING_URL', 'http://100.64.0.13:8791/homecoming')
+
+android {
+    namespace 'farm.bsf.homecoming'
+    compileSdk 34
+    buildToolsVersion "34.0.0"
+
+    defaultConfig {
+        applicationId "farm.bsf.homecoming"
+        minSdk 26
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        buildConfigField "String", "HOMECOMING_URL", "\"${homecomingUrl}\""
+        buildConfigField "String", "HOMECOMING_TOKEN", "\"${homecomingToken}\""
+    }
+    buildFeatures { buildConfig true }
+    buildTypes {
+        release { minifyEnabled false }
+    }
+}
+
+dependencies {
+    // Same fused-location library and version my trip-logging app's FixBankService uses on the test phone.
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+    testImplementation 'junit:junit:4.13.2'
+}

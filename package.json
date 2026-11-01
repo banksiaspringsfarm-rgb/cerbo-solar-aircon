@@ -1,0 +1,13 @@
+{
+  "name": "cerbo-solar-aircon",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Solar-aware control of a Daikin split via a Faikout, as a Node-RED dispatcher on the Cerbo GX",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node --test test/*.test.js",
+    "sim": "node sim/run.js",
+    "replay": "node sim/run.js replay"
+  },
+  "license": "SEE LICENSE IN LICENSE.md"
+}

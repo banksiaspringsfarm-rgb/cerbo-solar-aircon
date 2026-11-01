@@ -1,0 +1,536 @@
+[
+  {
+    "id": "ac2.tab",
+    "type": "tab",
+    "label": "AC v2 (Faikout) — SHADOW",
+    "disabled": false,
+    "info": "Solar-aware Daikin control via Faikout. SHADOW: publishes what it WOULD do on bsf/ac2/shadow; real command outputs unwired. Source + docs: this repo (cerbo-solar-aircon)."
+  },
+  {
+    "id": "ac2.comment.phase",
+    "type": "comment",
+    "z": "ac2.tab",
+    "name": "SHADOW — real command outputs (disp out 0, watchdog out 0) are UNWIRED on purpose.",
+    "info": "",
+    "x": 520,
+    "y": 40,
+    "wires": []
+  },
+  {
+    "id": "ac2.in.hw",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "bsf/hotwater/status",
+    "topic": "bsf/hotwater/status",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 100,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.presence",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "bsf/presence/state",
+    "topic": "bsf/presence/state",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 140,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.acv1",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "bsf/ac/status",
+    "topic": "bsf/ac/status",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 180,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.plugw",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "bsf/ac/plug_power",
+    "topic": "bsf/ac/plug_power",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 220,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.fk_state",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "state/daikin1",
+    "topic": "state/daikin1",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 260,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.fk_status",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "state/daikin1/status",
+    "topic": "state/daikin1/status",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 300,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.cmd",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "bsf/ac2/cmd",
+    "topic": "bsf/ac2/cmd",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 340,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.dashcmd",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "bsf/ac/cmd",
+    "topic": "bsf/ac/cmd",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 380,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.forecast",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "bsf/weather/forecast",
+    "topic": "bsf/weather/forecast",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 420,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.fk_minute",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "Faikout/daikin1",
+    "topic": "Faikout/daikin1",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 460,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.arrival",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "bsf/presence/coming_home",
+    "topic": "bsf/presence/coming_home",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 500,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.probe",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "bsf/ac2/probe",
+    "topic": "bsf/ac2/probe",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 540,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.in.room_ref",
+    "type": "mqtt in",
+    "z": "ac2.tab",
+    "name": "bsf/ac2/room_ref",
+    "topic": "bsf/ac2/room_ref",
+    "qos": "0",
+    "datatype": "auto-detect",
+    "broker": "hwv3.broker",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 170,
+    "y": 580,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.inject.tick",
+    "type": "inject",
+    "z": "ac2.tab",
+    "name": "tick 30 s",
+    "props": [
+      {
+        "p": "topic",
+        "vt": "str"
+      },
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "30",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "5",
+    "topic": "tick",
+    "payload": "",
+    "payloadType": "date",
+    "x": 170,
+    "y": 400,
+    "wires": [
+      [
+        "ac2.fn.disp"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.fn.disp",
+    "type": "function",
+    "z": "ac2.tab",
+    "name": "AC v2 dispatcher",
+    "func": "// AC v2 (Faikout) — dispatcher ac2.fn.disp — GENERATED by scripts/build.js, do not edit; edit src/ or nodered/ and rebuild.\n// sha256[:16] of body below: 033e55f3e8f0564a   dry_run: true   host: daikin1\nconst AC2_CONFIG = {\n  \"faikout_host\": \"daikin1\",\n  \"dry_run\": true,\n  \"tz_offset_min\": 600,\n  \"stale\": {\n    \"solar_max_age_s\": 120,\n    \"ac_max_age_s\": 300,\n    \"presence_max_age_s\": 900,\n    \"ac_draw_max_age_s\": 300\n  },\n  \"time_lockout\": {\n    \"start_hhmm\": \"05:00\",\n    \"end_hhmm\": \"18:00\"\n  },\n  \"window\": {\n    \"end_before_sunset_min\": 90,\n    \"fallback_end_hhmm\": \"16:00\"\n  },\n  \"battery\": {\n    \"soc_floor_pct\": 75,\n    \"boost_soc_floor_pct\": 75\n  },\n  \"sensors\": {\n    \"_note\": \"owner 15 Oct: run the room off the aircon sensor (the kitchen/lounge is the room to heat; the bedroom probe reads 4-7 C high and the bedroom is warmer with people asleep). Measured 14-15 Oct vs five Inkbirds: aircon sensor +0.3 C with the fan running; idle it drifts to +3.9 C over ~12 min. The Tuya probe is only a fallback if the aircon is unreachable (probe_fallback).\",\n    \"ac_idle_offset_c\": -3.9,\n    \"ac_idle_ramp_min\": 12,\n    \"ac_heat_offset_c\": -2,\n    \"heat_setpoint_add_c\": 2,\n    \"cool_setpoint_add_c\": 0,\n    \"_setpoint_add\": \"Setpoints are ROOM temperatures (Inkbird 4). Added to what is sent to the unit because its own sensor reads high: heating +2.0 C measured 15 Oct (one morning; refine from the Sunday calibration report). Cooling not measured yet.\",\n    \"probe_fallback\": false,\n    \"probe_offset_c\": -6.5,\n    \"probe_max_age_s\": 600\n  },\n  \"load\": {\n    \"cap_w\": 4200,\n    \"hw_drawing_w\": 100,\n    \"ac_est_draw_w\": 700,\n    \"fan_est_draw_w\": 30\n  },\n  \"presence\": {\n    \"required\": true,\n    \"soak_when_away\": true,\n    \"hand_change_home_h\": 4,\n    \"_hand_change_home_h\": \"A change at the unit (remote) counts as someone home for this many hours: phones in airplane mode read as away (owner 20 Oct). 0 = off.\"\n  },\n  \"season\": {\n    \"mode\": \"auto\",\n    \"cool_months\": [\n      11,\n      12,\n      1,\n      2,\n      3\n    ],\n    \"heat_months\": [\n      5,\n      6,\n      7,\n      8,\n      9\n    ],\n    \"shoulder_cool_if_home_above_c\": 27,\n    \"shoulder_cool_day_max_c\": 27,\n    \"_shoulder\": \"Apr/Oct: a cooling day only if the forecast max is >= 27 or the room starts above 27 (both 24 before the 26 C target, 21 Oct), so heating to 26 is not undone by solar pre-cooling to 24.\",\n    \"cold_outside_c\": 18,\n    \"cold_day_max_c\": 20,\n    \"warm_outside_c\": 26,\n    \"warm_day_max_c\": 28,\n    \"_cold_outside\": \"owner 15 Oct: cold outside -> want it warmer inside. Below these, a room under heat comfort - 1 (22 C) counts as cold and heats (on the usual battery/solar rules).\"\n  },\n  \"setpoints\": {\n    \"_note\": \"owner 2026-10-13: acceptable household range 19-26 C; 22-23 when there is power for it. 15 Oct heat raised to his 22-23 (room temps, Inkbird 4): battery 22, comfort 23, soak 24. Hot water has priority over the aircon. 21 Oct Owner: make the house sit around 26 C: heat comfort 26 (heats below 25 on a cold day, below 24 any day), soak 27, battery 25; cooling moved up to match (comfort 26, starts above 28) so heating to 26 never trips the cool side.\",\n    \"cool\": {\n      \"need_above_c\": 28,\n      \"comfort_c\": 26,\n      \"soak_c\": 24,\n      \"battery_c\": 26,\n      \"eco_c\": 27\n    },\n    \"heat\": {\n      \"need_below_c\": 24,\n      \"comfort_c\": 26,\n      \"soak_c\": 27,\n      \"battery_c\": 25,\n      \"eco_c\": 24\n    }\n  },\n  \"tiers\": {\n    \"soak\": {\n      \"enabled\": true,\n      \"soc_on\": 97,\n      \"soc_off\": 93,\n      \"surplus_on_w\": 1500,\n      \"surplus_off_w\": 600,\n      \"curtailed_counts\": true,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"comfort\": {\n      \"enabled\": true,\n      \"soc_on\": 90,\n      \"soc_off\": 85,\n      \"surplus_on_w\": 900,\n      \"surplus_off_w\": 300,\n      \"curtailed_counts\": true,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"morning\": {\n      \"enabled\": true,\n      \"start_hhmm\": \"05:00\",\n      \"end_hhmm\": \"08:00\",\n      \"soc_on\": 80,\n      \"soc_off\": 75,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"dry\": {\n      \"enabled\": true,\n      \"hum_on\": 65,\n      \"hum_off\": 55,\n      \"soc_on\": 90,\n      \"soc_off\": 85,\n      \"surplus_on_w\": 700,\n      \"surplus_off_w\": 200,\n      \"curtailed_counts\": true,\n      \"min_room_c\": 19,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"eco\": {\n      \"enabled\": false,\n      \"soc_on\": 85,\n      \"soc_off\": 80,\n      \"demand\": 50,\n      \"econo\": true\n    },\n    \"evening\": {\n      \"enabled\": true,\n      \"until_hhmm\": \"20:00\",\n      \"soc_on\": 87,\n      \"soc_off\": 85,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"night\": {\n      \"enabled\": true,\n      \"soc_on\": 87,\n      \"soc_off\": 85,\n      \"hot_above_c\": 28.5,\n      \"cold_below_c\": 18.5,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"night_fan\": {\n      \"enabled\": true,\n      \"above_c\": 22,\n      \"fan\": \"Q\",\n      \"hum_above\": 65,\n      \"min_room_c\": 17\n    },\n    \"fresh_air\": {\n      \"enabled\": true,\n      \"fan\": \"Q\",\n      \"when_away\": true,\n      \"_note\": \"owner 18 Oct: fresh-air fan whenever the aircon is not heating/cooling/drying, day and night, home or away, no temperature stops (for now; the logs show how often the room leaves the band).\"\n    },\n    \"arrival\": {\n      \"enabled\": true,\n      \"window_min\": 45,\n      \"soc_on\": 85,\n      \"soc_off\": 85,\n      \"band_c\": 1,\n      \"demand\": 100,\n      \"econo\": false\n    }\n  },\n  \"forecast\": {\n    \"enabled\": true,\n    \"max_age_h\": 12,\n    \"hot_day_c\": 30,\n    \"mild_day_c\": 24,\n    \"cold_day_c\": 14,\n    \"warm_winter_day_c\": 20,\n    \"dull_mj\": 12,\n    \"hot_soak_soc_on\": 93,\n    \"hot_soak_surplus_on_w\": 1000,\n    \"hot_need_above_c\": 27,\n    \"dull_comfort_soc_add\": 3\n  },\n  \"budget\": {\n    \"hw_priority\": true,\n    \"hw_reserve_w\": 3200,\n    \"hw_on_surplus_w\": 1800,\n    \"hw_soc_on\": 80\n  },\n  \"sustain\": {\n    \"on_s\": 90,\n    \"off_s\": 180\n  },\n  \"cycle\": {\n    \"min_run_s\": 1200,\n    \"min_off_s\": 600,\n    \"setpoint_min_interval_s\": 600\n  },\n  \"commands\": {\n    \"reassert_s\": 120,\n    \"use_demand\": \"auto\",\n    \"fan\": \"A\"\n  },\n  \"manual\": {\n    \"detect_grace_s\": 120,\n    \"hold_min\": 60,\n    \"settle_s\": 60,\n    \"guards_in_hold\": [\n      \"soc_floor\",\n      \"load_cap\",\n      \"night_soc\"\n    ]\n  },\n  \"boost\": {\n    \"default_min\": 120,\n    \"max_min\": 360\n  },\n  \"presets\": {\n    \"names\": [\n      \"warm\",\n      \"cool\",\n      \"fresh\",\n      \"off\"\n    ],\n    \"default_min\": 60,\n    \"warm_room_c\": 26,\n    \"cool_room_c\": 21,\n    \"fresh_fan\": \"Q\",\n    \"_note\": \"owner 18 Oct: one-tap presets for 1 h (like a hand change), then AUTO. warm = heat the room to 24 C (the unit shows Heat 26), cool = cool to 21 C, fresh = fan only, off = off. Battery floor still cuts warm/cool.\"\n  }\n};\n\n// Config overrides from flow context (`ac2_cfg_overrides`) are deep-merged over AC2_CONFIG,\n// so the dashboard can tune one threshold without restating the rest.\nfunction mergeDeep(base, over) {\n  if (!over || typeof over !== 'object' || Array.isArray(over)) return over === undefined ? base : over;\n  const out = Array.isArray(base) ? base.slice() : Object.assign({}, base);\n  Object.keys(over).forEach(function (k) {\n    out[k] = (base && typeof base[k] === 'object' && !Array.isArray(base[k])) ? mergeDeep(base[k], over[k]) : over[k];\n  });\n  return out;\n}\n\n// AC v2 decision core: solar-aware control of the Daikin through a Faikout.\n//\n// Pure logic, no I/O. The same file runs under node (tests, sim, replay) and is pasted into\n// the Node-RED function node on the Cerbo by scripts/build.js. Everything it knows arrives in\n// `inp`; everything it remembers lives in `mem` (Node-RED keeps that in flow context, so it\n// survives a deploy and a reboot). See docs/CONTROL-LOGIC.md for the reasoning behind each rule.\n//\n// decide(cfg, inp, mem, now) -> { mem, tier, guards, desired, send, status, logs, anomalies }\n//   inp.solar     normalised bsf/hotwater/status   (normalizeHw)\n//   inp.ac        normalised state/<host>/status   (normalizeFaikout), plus .online from state/<host>\n//   inp.ac_draw   { ts_ms, w } metered AC draw (bsf/ac/plug_power), optional\n//   inp.presence  { ts_ms, anyone_home }           (bsf/presence/state), optional\n//   inp.inside    { ts_ms, c } fallback room temp  (bsf/ac/status inside_temp), optional\n//   inp.forecast  { ts_ms, today: {date, max_c, min_c, rad_mj, cloud, rain_prob, hum} } (bsf/weather/forecast), optional\n//   inp.arrival   { ts_ms, eta_min } someone is driving home (bsf/presence/coming_home, Farm Homecoming app), optional\n//   send          null, or the JSON to publish on command/<host>\n//   events        manual-preference records for bsf/ac2/manual (manual_change, hold_end)\n\nconst TIER_ORDER = ['soak', 'comfort', 'dry', 'morning', 'eco', 'evening', 'night', 'night_fan']; // highest first; the last three only outside the day window\nconst DAY_TIERS = ['soak', 'comfort', 'dry', 'morning', 'eco'];\nconst NIGHT_TIERS = ['evening', 'night', 'night_fan'];\nconst HOLD_GUARD_NAMES = { soc_floor: 'SOC_FLOOR', load_cap: 'LOAD_CAP', night_soc: 'NIGHT_SOC_FLOOR' };\n\nfunction isNum(x) { return typeof x === 'number' && isFinite(x); }\nfunction hhmmToMin(s) { const p = String(s).split(':'); return Number(p[0]) * 60 + Number(p[1]); }\nfunction localDate(now, cfg) { return new Date(now + cfg.tz_offset_min * 60000); }\nfunction localMin(now, cfg) { const d = localDate(now, cfg); return d.getUTCHours() * 60 + d.getUTCMinutes(); }\nfunction localDayKey(now, cfg) { return localDate(now, cfg).toISOString().slice(0, 10); }\nfunction inClock(min, start, end) { return start <= end ? (min >= start && min < end) : (min >= start || min < end); }\nfunction fmtMin(min) { const h = Math.floor(min / 60), m = min % 60; return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m; }\n\nfunction freshMem() {\n  return {\n    mode: 'AUTO',            // AUTO | OFF | BOOST | PRESET\n    boostUntil: null,\n    seasonForce: null,\n    roomSeason: null,        // 'heat' | 'cool' while the room overrides the day's season (roomOverride)       // null | 'heat' | 'cool' (dashboard override of cfg.season.mode)\n    season: null,            // { day, value } locked once per local day\n    latch: {},               // per tier: { on, since }\n    prevAcOn: null,\n    lastSeason: null,\n    prevCompOn: null,        // compressor modes (H/C/D/A) vs fan-only or off: what short-cycling is about\n    compOnAt: null,\n    compOffAt: null,\n    lastOnAt: null,\n    lastOffAt: null,\n    lastSetpointAt: null,\n    lastSent: null,          // { power, mode, temp, fan, econo, demand, at, confirmed, attempts }\n    manualHoldUntil: null,\n    manual: null,            // the current manual episode: { started, from, last, changes, room_start, pending }\n    seenAc: false,           // first Faikout status seen? (adopt a run already in progress as manual)\n    handHomeUntil: null,     // a change at the unit means someone is home, whatever the phones say\n    activeAnoms: {},\n    tier: 'idle',\n    tierSince: null,\n  };\n}\n\n// ── input normalisers ────────────────────────────────────────────────────────────────────\nfunction normalizeHw(p, now) {\n  if (!p || typeof p !== 'object') return null;\n  const ts = p.ts ? Date.parse(p.ts) : now;\n  return {\n    ts_ms: isFinite(ts) ? ts : now,\n    soc: isNum(p.soc) ? p.soc : null,\n    surplus_w: isNum(p.surplus_smooth) ? p.surplus_smooth : (isNum(p.surplus_now) ? p.surplus_now : 0),\n    load_w: isNum(p.ac_load) ? p.ac_load : 0,\n    curtailed: p.curtailed === true,\n    hw_draw_w: isNum(p.plug_power) ? p.plug_power : 0,\n    hw_mode: typeof p.mode === 'string' ? p.mode : null,       // HW dispatcher: DISPATCH | LOCKOUT\n    hw_on: p.hwState === 'on',\n    sunset_ms: p.sunset_iso ? Date.parse(p.sunset_iso) : null,\n  };\n}\n\n// Faikout status JSON (state/<host>/status). Field names from the firmware source\n// (accontrols.m / acfields.m). UNVERIFIED against the real unit until it is online.\nfunction normalizeFaikout(p, now) {\n  if (!p || typeof p !== 'object') return null;\n  return {\n    ts_ms: now,\n    online: p.online !== false,\n    power: p.power === true,\n    mode: typeof p.mode === 'string' ? p.mode : null,\n    temp: isNum(p.temp) ? p.temp : null,\n    home: isNum(p.home) ? p.home : null,\n    outside: isNum(p.outside) ? p.outside : null,\n    demand: isNum(p.demand) ? p.demand : undefined,\n    econo: typeof p.econo === 'boolean' ? p.econo : undefined,\n    fan: typeof p.fan === 'string' ? p.fan : undefined,\n    comp: isNum(p.comp) ? p.comp : undefined,\n    hum: isNum(p.hum) ? p.hum : undefined,\n    env: isNum(p.env) ? p.env : undefined,   // reference temp from a paired BLE sensor (Faikout autob), when fitted\n  };\n}\n\n// ── dashboard / manual commands (bsf/ac2/cmd) ───────────────────────────────────────────\nfunction applyCommand(cfg, mem, c, now) {\n  const m = Object.assign({}, mem);\n  if (!c || typeof c !== 'object') return { mem: m, log: 'ignored non-object cmd' };\n  switch (c.cmd) {\n    case 'set_mode':\n      if (c.mode !== 'AUTO' && c.mode !== 'OFF') return { mem: m, log: 'bad mode ' + c.mode };\n      m.mode = c.mode; m.boostUntil = null; m.manualHoldUntil = null; m.preset = null; m.presetUntil = null;\n      return { mem: m, log: 'mode -> ' + c.mode };\n    case 'boost': {\n      const mins = Math.min(isNum(c.minutes) ? c.minutes : cfg.boost.default_min, cfg.boost.max_min);\n      m.mode = 'BOOST'; m.boostUntil = now + mins * 60000; m.manualHoldUntil = null; m.preset = null; m.presetUntil = null;\n      return { mem: m, log: 'boost ' + mins + ' min' };\n    }\n    case 'extend_boost': {\n      if (m.mode !== 'BOOST') return { mem: m, log: 'extend_boost ignored: not boosting' };\n      const cap = now + cfg.boost.max_min * 60000;\n      m.boostUntil = Math.min(m.boostUntil + (isNum(c.minutes) ? c.minutes : 30) * 60000, cap);\n      return { mem: m, log: 'boost extended' };\n    }\n    case 'preset': {\n      // One-tap presets (owner 18 Oct), from the dashboard or the phone over Tailscale: run for `minutes`\n      // (default presets.default_min, 1 h like a hand change), then back to AUTO.\n      const P = cfg.presets || {};\n      if (!P.names || P.names.indexOf(c.name) < 0) return { mem: m, log: 'bad preset ' + c.name };\n      const mins = Math.min(isNum(c.minutes) && c.minutes > 0 ? c.minutes : P.default_min, cfg.boost.max_min);\n      m.mode = 'PRESET'; m.preset = c.name; m.presetUntil = now + mins * 60000; m.boostUntil = null; m.manualHoldUntil = null;\n      return { mem: m, log: 'preset ' + c.name + ' ' + mins + ' min' + (c.source ? ' (' + String(c.source).slice(0, 40) + ')' : '') };\n    }\n    case 'clear_hold':\n      m.manualHoldUntil = null; m.lastSent = null;\n      return { mem: m, log: 'manual hold cleared' };\n    case 'set_season':\n      m.seasonForce = (c.season === 'heat' || c.season === 'cool') ? c.season : null; m.season = null;\n      return { mem: m, log: 'season -> ' + (m.seasonForce || 'auto') };\n    default:\n      return { mem: m, log: 'unknown cmd ' + c.cmd };\n  }\n}\n\n// ── helpers ──────────────────────────────────────────────────────────────────────────────\nfunction getSeason(cfg, m, now, home, fc, coldOut, warmOut) {\n  if (m.seasonForce) return m.seasonForce;\n  if (cfg.season.mode === 'heat' || cfg.season.mode === 'cool') return cfg.season.mode;\n  return roomOverride(cfg, m, home, daySeason(cfg, m, now, home, fc), coldOut, warmOut);\n}\n\n// Cold outside (owner 15 Oct: \"it's cold outside, so you'd want it warmer inside\"): the outdoor reading below\n// season.cold_outside_c, or today's forecast max below season.cold_day_max_c.\nfunction isColdOut(cfg, now, outC, fc) {\n  const S = cfg.season;\n  const fcMax = fc && fc.date === localDayKey(now, cfg) && isNum(fc.max_c) ? fc.max_c : null;\n  return (isNum(outC) && outC < (S.cold_outside_c || -99)) || (isNum(fcMax) && fcMax < (S.cold_day_max_c || -99));\n}\n\n// Hot outside: the mirror of isColdOut (idle outdoor reading above season.warm_outside_c, or today's forecast max\n// at/above season.warm_day_max_c). Then a room above cool.comfort_c + 2 (25 C) already counts as warm.\nfunction isWarmOut(cfg, now, outC, fc) {\n  const S = cfg.season;\n  const fcMax = fc && fc.date === localDayKey(now, cfg) && isNum(fc.max_c) ? fc.max_c : null;\n  return (isNum(outC) && outC > (S.warm_outside_c || 99)) || (isNum(fcMax) && fcMax >= (S.warm_day_max_c || 99));\n}\n\n// the owner's band (15 Oct): 19-26 C is acceptable; 22-23 when there is power. So a room is cold below heat\n// need_below_c (19), or below heat comfort - 1 (22) when it is cold outside; warm above cool need_above_c (26), or\n// above cool comfort + 2 (25) when it is hot outside. Used for every tier's 'needs it' and the season override.\nfunction needsHeat(cfg, home, coldOut) {\n  const H = cfg.setpoints.heat;\n  return isNum(home) && home < (coldOut ? Math.max(H.need_below_c, H.comfort_c - 1) : H.need_below_c);\n}\nfunction needsCool(cfg, home, warmOut) {\n  const C = cfg.setpoints.cool;\n  return isNum(home) && home > (warmOut ? Math.min(C.need_above_c, C.comfort_c + 2) : C.need_above_c);\n}\n\n// A room that is plainly too cold (or too hot) for the day's season wins over the calendar and the forecast:\n// 15 Oct 06:24 the house was 16.5 C, the forecast said a 24+ C day, and boost ran Cool 23 (fan only, no heat).\n// Below heat.need_below_c it heats until the room is back to heat.comfort_c; above cool.need_above_c it cools\n// until cool.comfort_c. The day's season is not relocked, so the afternoon goes back to the forecast's.\n// When it is cold outside (isColdOut) a room under heat.comfort_c - 1 already counts as cold. 15 Oct: a 25 C\n// forecast that turned into 16 C left the day 'cool', and the house sat at 20-21 C all afternoon with the battery\n// full and solar thrown away.\nfunction roomOverride(cfg, m, home, v, coldOut, warmOut) {\n  if (!v || !isNum(home)) return v;\n  const H = cfg.setpoints.heat, C = cfg.setpoints.cool;\n  if (v === 'cool') {\n    if (needsHeat(cfg, home, coldOut)) m.roomSeason = 'heat';\n    else if (home >= H.comfort_c || m.roomSeason === 'cool') m.roomSeason = null;\n  } else {\n    if (needsCool(cfg, home, warmOut)) m.roomSeason = 'cool'; else if (home <= C.comfort_c || m.roomSeason === 'heat') m.roomSeason = null;\n  }\n  return m.roomSeason || v;\n}\n\nfunction daySeason(cfg, m, now, home, fc) {\n  const day = localDayKey(now, cfg);\n  // Locked for the day, unless it was locked from a forecast that has since moved 3 C or more (15 Oct: 25 -> 16 C).\n  const fcNow = fc && fc.date === day && isNum(fc.max_c) ? fc.max_c : null;\n  if (m.season && m.season.day === day && !(isNum(m.season.fc_max) && fcNow !== null && Math.abs(fcNow - m.season.fc_max) >= 3)) return m.season.value;\n  const month = localDate(now, cfg).getUTCMonth() + 1;\n  let v = null;\n  if (cfg.season.cool_months.indexOf(month) >= 0) v = 'cool';\n  else if (cfg.season.heat_months.indexOf(month) >= 0) v = 'heat';\n  // Shoulder months (Apr, Oct): today's forecast is a better guide than a dawn room reading (14 Oct: a bad\n  // probe offset made dawn read 18 C and locked the day to heat). Max >= shoulder_cool_day_max_c (27; was 24 until\n  // the owner's 26 C target, 21 Oct) -> cool, <= 18 -> heat, else room.\n  else if (fcNow !== null && fcNow >= (cfg.season.shoulder_cool_day_max_c || 24)) v = 'cool';\n  else if (fcNow !== null && fcNow <= 18) v = 'heat';\n  else if (isNum(home)) v = home > cfg.season.shoulder_cool_if_home_above_c ? 'cool' : 'heat';\n  if (!v) return m.season ? m.season.value : null;   // shoulder month, no temp yet: don't lock\n  m.season = { day: day, value: v, fc_max: fcNow };\n  return v;\n}\n\nfunction stepLatch(l, enabled, enter, stay, now, cfg) {\n  if (!enabled) { l.on = false; l.since = null; return; }\n  const cond = l.on ? !stay : enter;           // the condition that would flip the latch\n  if (!cond) { l.since = null; return; }\n  if (l.since == null) l.since = now;\n  const need = (l.on ? cfg.sustain.off_s : cfg.sustain.on_s) * 1000;\n  if (now - l.since >= need) { l.on = !l.on; l.since = null; }\n}\n\nfunction resetLatches(m, which) { (which || TIER_ORDER).forEach(function (t) { m.latch[t] = { on: false, since: null }; }); }\n\n// Setpoints in the config are ROOM temperatures (Inkbird 4 = truth). The unit runs its own thermostat off its\n// head sensor, which reads high while heating (+2.0 C, 15 Oct: Heat 21 throttled to 20 Hz with the room at 18.9),\n// so the setting sent to the unit adds sensors.heat_setpoint_add_c (cool_setpoint_add_c for cooling; 0 until\n// measured). Rounded to the unit's 0.5 C steps, kept inside its 16-30 C range.\nfunction unitTemp(cfg, season, temp) {\n  const SN = cfg.sensors || {};\n  const add = season === 'heat' ? (SN.heat_setpoint_add_c || 0) : (SN.cool_setpoint_add_c || 0);\n  return Math.min(30, Math.max(16, Math.round((temp + add) * 2) / 2));\n}\n\nfunction runCmd(cfg, season, temp, tierCfg) {\n  return {\n    power: true,\n    mode: season === 'heat' ? 'H' : 'C',\n    temp: unitTemp(cfg, season, temp),\n    fan: cfg.commands.fan,\n    econo: tierCfg ? !!tierCfg.econo : false,\n    demand: tierCfg && isNum(tierCfg.demand) ? tierCfg.demand : 100,\n  };\n}\n\nfunction matches(ac, want) {\n  if (!ac) return false;\n  if (!!ac.power !== !!want.power) return false;\n  if (!want.power) return true;\n  if (want.mode && ac.mode !== want.mode) return false;\n  if (isNum(want.temp) && (!isNum(ac.temp) || Math.abs(ac.temp - want.temp) >= 0.5)) return false;\n  return true;\n}\n\nfunction snapSetting(x) {\n  if (!x) return null;\n  return x.power ? { power: true, mode: x.mode, temp: x.temp, fan: x.fan } : { power: false };\n}\nfunction sameSetting(a, b) {\n  if (!a || !b) return false;\n  if (!!a.power !== !!b.power) return false;\n  if (!a.power) return true;\n  return a.mode === b.mode && isNum(a.temp) && isNum(b.temp) && Math.abs(a.temp - b.temp) < 0.25 && a.fan === b.fan;\n}\n\nfunction payloadFor(cfg, want, ac) {\n  if (!want.power) return { power: false };\n  const p = { power: true, mode: want.mode, temp: want.temp, fan: want.fan };\n  // Live test 2026-10-12: {mode:'H',temp:21} left the unit at its remembered heat setpoint (18).\n  // Change mode first; the setpoint follows on the next tick once the mode is confirmed.\n  if (ac && ac.mode && want.mode !== ac.mode) delete p.temp;\n  // Only send optional features the unit reports. The FTXZ25 reports neither econo nor demand\n  // (live status 2026-10-12), and the firmware rejects controls the unit doesn't support.\n  if (!ac || ac.econo !== undefined) p.econo = want.econo;\n  const ud = cfg.commands.use_demand;\n  if (ud === true || ud === 'on' || (ud === 'auto' && ac && ac.demand !== undefined)) p.demand = want.demand;\n  return p;\n}\n\n// ── the decision ─────────────────────────────────────────────────────────────────────────\nfunction decide(cfg, inp, memIn, now) {\n  const m = JSON.parse(JSON.stringify(memIn || freshMem()));\n  if (!m.latch) m.latch = {};\n  TIER_ORDER.forEach(function (t) { if (!m.latch[t]) m.latch[t] = { on: false, since: null }; });\n  const logs = [], anomalies = [], reasons = [];\n  const solar = inp.solar, acRaw = inp.ac;\n\n  // 0. boost / preset expiry\n  if (m.mode === 'BOOST' && (!m.boostUntil || now >= m.boostUntil)) {\n    m.mode = 'AUTO'; m.boostUntil = null; logs.push('boost finished -> AUTO');\n  }\n  if (m.mode === 'PRESET' && (!m.presetUntil || now >= m.presetUntil)) {\n    logs.push('preset ' + m.preset + ' finished -> AUTO'); m.mode = 'AUTO'; m.preset = null; m.presetUntil = null;\n  }\n\n  // 1. freshness + derived signals\n  const solarOk = !!solar && isNum(solar.soc) && (now - solar.ts_ms) <= cfg.stale.solar_max_age_s * 1000;\n  const acFresh = !!acRaw && acRaw.online !== false && (now - acRaw.ts_ms) <= cfg.stale.ac_max_age_s * 1000;\n  const ac = acFresh ? acRaw : null;\n\n  const acOn = ac ? !!ac.power : !!(m.lastSent && m.lastSent.power);\n  if (m.prevAcOn !== null && acOn !== m.prevAcOn) { if (acOn) m.lastOnAt = now; else m.lastOffAt = now; }\n  m.prevAcOn = acOn;\n  // Since the fresh-air fan runs whenever nothing else does (owner 18 Oct), 'on' mostly means the fan: the\n  // compressor is what min-run / min-off protect, what draws ~700 W, and what makes the outdoor sensor read low.\n  const isCompMode = function (s) { return !!(s && s.power && s.mode && s.mode !== 'F'); };\n  const compOn = ac ? isCompMode(ac) : isCompMode(m.lastSent);\n  if (m.prevCompOn !== null && compOn !== m.prevCompOn) { if (compOn) m.compOnAt = now; else m.compOffAt = now; }\n  m.prevCompOn = compOn;\n\n  // Room temperature = the kitchen/lounge, where the aircon is (owner 15 Oct: the bedroom probe is not the room\n  // to heat; people sleeping warm it). Measured 14-15 Oct against five Inkbirds in the room:\n  //   aircon sensor, fan running: +0.3 C (good)\n  //   aircon sensor, fan stopped: drifts up over ~12 min to about +3.9 C (warm ceiling air), then stays there\n  // While heating it reads ~+2 C high too (19 vs 16.8, 15 Oct). So first choice is the reference thermometer\n  // (inp.room_ref: Inkbird 4 on the kitchen fridge, ~1 m up, out of the airflow) while its reading is under\n  // sensors.room_ref_max_age_s old; then a BLE sensor on the Faikout; else the aircon sensor, corrected while idle by\n  // ac_idle_offset_c ramped in over ac_idle_ramp_min since the fan stopped (full if we never saw it stop).\n  // The Tuya probe is used only if sensors.probe_fallback is on and the aircon is unreachable.\n  let home = null, tempSrc = 'none';\n  const SN = cfg.sensors || {};\n  const probeOk = inp.inside && isNum(inp.inside.c) && (now - inp.inside.ts_ms) <= (SN.probe_max_age_s || cfg.stale.ac_max_age_s) * 1000;\n  const probeC = probeOk ? Math.round((inp.inside.c + (SN.probe_offset_c || 0)) * 10) / 10 : null;\n  const refOk = inp.room_ref && isNum(inp.room_ref.c) && now - inp.room_ref.ts_ms <= (SN.room_ref_max_age_s || 600) * 1000;\n  if (refOk) { home = inp.room_ref.c; tempSrc = 'ref'; }   // owner 15 Oct: Inkbird 4 on the fridge is the source of truth\n  else if (ac && isNum(ac.env)) { home = ac.env; tempSrc = 'ble'; }\n  else if (ac && ac.power && isNum(ac.home)) {\n    // while HEATING the head sensor reads high too (+2.0 C vs Inkbird 4, 15 Oct): sensors.ac_heat_offset_c\n    const off = ac.mode === 'H' ? (SN.ac_heat_offset_c || 0) : 0;\n    home = Math.round((ac.home + off) * 10) / 10; tempSrc = off ? 'faikout_heat' : 'faikout';\n  }\n  else if (ac && isNum(ac.home)) {\n    const ramp = (SN.ac_idle_ramp_min || 12) * 60000;\n    const frac = m.lastOffAt ? Math.min(1, Math.max(0, (now - m.lastOffAt) / ramp)) : 1;\n    home = Math.round((ac.home + (SN.ac_idle_offset_c || 0) * frac) * 10) / 10; tempSrc = 'faikout_idle';\n  }\n  else if (SN.probe_fallback && probeC !== null) { home = probeC; tempSrc = 'probe'; }\n\n  const drawFresh = inp.ac_draw && isNum(inp.ac_draw.w) && (now - inp.ac_draw.ts_ms) <= cfg.stale.ac_draw_max_age_s * 1000;\n  const acDraw = !acOn ? 0 : drawFresh ? inp.ac_draw.w : compOn ? cfg.load.ac_est_draw_w : (cfg.load.fan_est_draw_w || 30);\n  const surplus = solarOk ? solar.surplus_w + acDraw : null;   // surplus as if the AC were off\n  const hwDrawing = solarOk && solar.hw_draw_w > cfg.load.hw_drawing_w;\n\n  // 2. did someone change the AC by hand (remote / web page)? AUTO yields for a while.\n  // Every manual change is recorded (bsf/ac2/manual) so the household's preferences can be learnt.\n  // Presses within settle_s are grouped into one event; each change restarts the hold.\n  const events = [];\n  const holdMs = cfg.manual.hold_min * 60000;\n  const ctx = function () {\n    return {\n      local_time: fmtMin(localMin(now, cfg)), room_c: home, outside_c: ac ? ac.outside : null, hum: ac ? ac.hum : null,\n      soc: solarOk ? solar.soc : null, surplus_ex_ac_w: solarOk ? Math.round(solar.surplus_w + acDraw) : null,\n      curtailed: solarOk ? solar.curtailed : null, auto_tier_before: m.tier, mode: m.mode,\n      someone_home: inp.presence ? inp.presence.anyone_home : null,\n    };\n  };\n  // Someone changing the aircon at the unit is at home, even with their phone in airplane mode (owner 20 Oct:\n  // a family member's phone reads as away). Each change counts them home for presence.hand_change_home_h hours.\n  const handHome = function () {\n    if (cfg.presence.hand_change_home_h > 0) m.handHomeUntil = now + cfg.presence.hand_change_home_h * 3600000;\n  };\n  const startManual = function (from, kind) {\n    m.manualHoldUntil = now + holdMs;\n    if (kind !== 'found_running') handHome();\n    m.manual = { started: now, kind: kind, from: from, last: snapSetting(ac), changes: 1, room_start: home,\n      pending: { at: now, first_at: now, from: from, to: snapSetting(ac), ctx: ctx() } };\n    logs.push((kind === 'found_running' ? 'AC already running when first seen' : 'AC changed by hand') + ' -> manual hold ' + cfg.manual.hold_min + ' min');\n  };\n  const flushPending = function (force) {\n    const pd = m.manual && m.manual.pending;\n    if (!pd || (!force && now - pd.at < cfg.manual.settle_s * 1000)) return;\n    events.push({ type: 'manual_change', kind: m.manual.kind, ts: new Date(pd.first_at).toISOString(), from: pd.from, to: pd.to,\n      context: pd.ctx, hold_until: m.manualHoldUntil ? new Date(m.manualHoldUntil).toISOString() : null, change_no: m.manual.changes });\n    m.manual.pending = null;\n    m.manual.kind = 'changed_by_hand';\n  };\n  const endManual = function (reason) {\n    if (!m.manual) return;\n    flushPending(true);\n    events.push({ type: 'hold_end', ts: new Date(now).toISOString(), reason: reason, started: new Date(m.manual.started).toISOString(),\n      minutes: Math.round((now - m.manual.started) / 60000), changes: m.manual.changes, final_setting: m.manual.last,\n      automation_had: m.manual.from, room_start_c: m.manual.room_start, room_end_c: home, context: ctx() });\n    m.manual = null;\n  };\n\n  if (ac && !m.seenAc) {\n    m.seenAc = true;\n    if (ac.power && m.mode === 'AUTO' && !m.lastSent) startManual(null, 'found_running');\n  }\n  if (ac && m.manualHoldUntil && !m.manual) {\n    // A hold started before manual logging existed (or before a redeploy): start tracking it now.\n    m.manual = { started: now, kind: 'changed_by_hand', from: null, last: snapSetting(ac), changes: 0, room_start: home, pending: null };\n  }\n  if (ac && m.lastSent) {\n    if (matches(ac, m.lastSent)) m.lastSent.confirmed = true;\n    else if (m.lastSent.confirmed && m.mode === 'AUTO') {\n      startManual(snapSetting(m.lastSent), 'changed_by_hand');\n      m.lastSent = null;\n    } else if (m.lastSent.confirmed && (m.mode === 'BOOST' || m.mode === 'PRESET')) {\n      // A change at the unit beats a dashboard boost (15 Oct: boost ran Cool 23 on a cold morning and put back\n      // the Heat 26 set by hand): the boost ends and the change gets the usual manual hold.\n      logs.push('changed by hand during ' + m.mode.toLowerCase() + ' -> ' + m.mode.toLowerCase() + ' ended');\n      m.mode = 'AUTO'; m.boostUntil = null; m.preset = null; m.presetUntil = null;\n      startManual(snapSetting(m.lastSent), 'changed_in_boost');\n      m.lastSent = null;\n    } else if (m.lastSent.confirmed) {\n      // OFF re-asserts its setting, but the attempt is still worth recording.\n      handHome();\n      events.push({ type: 'manual_change', kind: 'overridden_' + m.mode.toLowerCase(), ts: new Date(now).toISOString(),\n        from: snapSetting(m.lastSent), to: snapSetting(ac), context: ctx(), hold_until: null, change_no: 1 });\n      m.lastSent.confirmed = false;\n    }\n  }\n  if (m.manual && m.manualHoldUntil && ac && !sameSetting(ac, m.manual.last)) {\n    m.manual.changes++;\n    if (m.manual.pending) { m.manual.pending.to = snapSetting(ac); m.manual.pending.at = now; }\n    else m.manual.pending = { at: now, first_at: now, from: m.manual.last, to: snapSetting(ac), ctx: ctx() };\n    m.manual.last = snapSetting(ac);\n    m.manualHoldUntil = now + holdMs;\n    handHome();\n  }\n  flushPending(false);\n  if (m.manualHoldUntil && now >= m.manualHoldUntil) { m.manualHoldUntil = null; endManual('hour_up'); logs.push('manual hold over -> AUTO resumes'); }\n  if (m.manual && !m.manualHoldUntil) endManual(m.mode === 'AUTO' ? 'cleared' : 'dashboard_' + m.mode.toLowerCase());\n  const inHold = m.mode === 'AUTO' && !!m.manualHoldUntil;\n  if (m.handHomeUntil && now >= m.handHomeUntil) m.handHomeUntil = null;\n  const homeByHand = !!m.handHomeUntil;\n\n  // 3. hard guards: these beat min-run, tiers and boost\n  const guards = [];\n  if (!solarOk) guards.push('STALE_SOLAR');\n  else {\n    const floor = m.mode === 'BOOST' ? cfg.battery.boost_soc_floor_pct : cfg.battery.soc_floor_pct;\n    if (solar.soc < floor) guards.push('SOC_FLOOR');\n    if (acOn && solar.load_w > cfg.load.cap_w && !hwDrawing) guards.push('LOAD_CAP');\n    if (!compOn && solar.load_w + cfg.load.ac_est_draw_w > cfg.load.cap_w) guards.push('LOAD_HEADROOM');   // don't START the compressor into a full lead\n  }\n\n  // 4. what do we want?\n  // outdoor reading only while the unit is idle: heating chills its outdoor coil sensor (reads low)\n  const outIdle = ac && !compOn && isNum(ac.outside) ? ac.outside : null, fcToday = inp.forecast && inp.forecast.today;\n  const coldOut = isColdOut(cfg, now, outIdle, fcToday), warmOut = isWarmOut(cfg, now, outIdle, fcToday);\n  const season = getSeason(cfg, m, now, home, fcToday, coldOut, warmOut);\n  // A run never carries over a heat <-> cool change (18 Oct: a comfort heat run carried on as COOL once the room\n  // was back to 22 C and the cold-room override ended). The tiers decide afresh; min-run still protects the compressor.\n  if (m.lastSeason && season && season !== m.lastSeason) { resetLatches(m); logs.push('season ' + m.lastSeason + ' -> ' + season + ': tiers reset'); }\n  if (season) m.lastSeason = season;\n  const seasonNeeds = function (s) { return !s || !isNum(home) ? null : (s === 'cool' ? needsCool(cfg, home, warmOut) : needsHeat(cfg, home, coldOut)); };\n  // Humidity: Inkbird 4 (true room air) while its reading is fresh; the aircon's head sensor reads ~20 % lower\n  // (warmer ceiling air: 50-60 % against the Inkbirds' ~78 %, 15 Oct).\n  const hum = refOk && isNum(inp.room_ref.hum) ? inp.room_ref.hum : (ac && isNum(ac.hum) ? ac.hum : null);\n  const t = localMin(now, cfg);\n  const lockStart = hhmmToMin(cfg.time_lockout.start_hhmm), lockEnd = hhmmToMin(cfg.time_lockout.end_hhmm);\n  // Sunset comes from the HW dispatcher and is refreshed once a day; only trust it if it is\n  // today's (v1.15 midnight bug: a stale sunrise opened the window at 00:00).\n  let winEnd = hhmmToMin(cfg.window.fallback_end_hhmm);\n  if (solarOk && solar.sunset_ms && localDayKey(solar.sunset_ms, cfg) === localDayKey(now, cfg)) {\n    winEnd = localMin(solar.sunset_ms, cfg) - cfg.window.end_before_sunset_min;\n  }\n  const isNight = !inClock(t, lockStart, lockEnd) || t >= winEnd;\n  // Heading home (owner 2026-10-13): for window_min after the app says someone is coming home, get the room to\n  // the comfort setpoint if it is more than band_c outside it. Solar first through the normal tiers; this is\n  // the fallback that may use the battery down to soc_off. Ignores presence (the people are on their way).\n  const AR = cfg.tiers.arrival;\n  const arrivalOn = !!(AR && AR.enabled && inp.arrival && isNum(inp.arrival.ts_ms) && now - inp.arrival.ts_ms >= 0 &&\n    now - inp.arrival.ts_ms <= AR.window_min * 60000 && solarOk && solar.soc >= AR.soc_off && season && isNum(home) &&\n    (season === 'cool' ? home > cfg.setpoints.cool.comfort_c + AR.band_c : home < cfg.setpoints.heat.comfort_c - AR.band_c));\n  const arrivalWant = function () { return runCmd(cfg, season, cfg.setpoints[season].comfort_c, AR); };\n  let want = null;          // null = leave the AC alone this tick\n  let tier = 'idle';\n  let safety = false;       // true = exempt from min-run / setpoint pacing\n\n  if (m.mode === 'OFF') {\n    want = { power: false }; tier = 'mode_off'; safety = true; resetLatches(m);\n  } else if (inHold) {\n    const allowed = function (g) { return cfg.manual.guards_in_hold.some(function (n) { return HOLD_GUARD_NAMES[n] === g; }); };\n    const holdGuards = guards.filter(allowed);\n    if (isNight && solarOk && solar.soc < cfg.tiers.night.soc_off && allowed('NIGHT_SOC_FLOOR')) holdGuards.push('NIGHT_SOC_FLOOR');\n    resetLatches(m);\n    if (holdGuards.length) { want = { power: false }; tier = 'guard'; safety = true; reasons.push.apply(reasons, holdGuards); }\n    else { tier = 'manual_hold'; reasons.push('until ' + fmtMin(localMin(m.manualHoldUntil, cfg))); }\n  } else if (guards.length) {\n    want = { power: false }; tier = 'guard'; safety = true; reasons.push.apply(reasons, guards);\n    resetLatches(m);\n    if (m.mode === 'PRESET' && guards.indexOf('SOC_FLOOR') >= 0 && (m.preset === 'warm' || m.preset === 'cool')) {\n      logs.push('preset ' + m.preset + ' cut by SOC floor -> AUTO'); m.mode = 'AUTO'; m.preset = null; m.presetUntil = null;\n    }\n    if (m.mode === 'BOOST' && guards.indexOf('SOC_FLOOR') >= 0) {\n      m.mode = 'AUTO'; m.boostUntil = null; logs.push('boost cut by SOC floor -> AUTO');\n      anomalies.push({ key: 'BOOST_CUT_SOC', msg: 'Boost cut: SOC ' + solar.soc + '% below floor' });\n    }\n  } else if (m.mode === 'PRESET') {\n    const P = cfg.presets;\n    if (m.preset === 'warm') want = runCmd(cfg, 'heat', P.warm_room_c, null);\n    else if (m.preset === 'cool') want = runCmd(cfg, 'cool', P.cool_room_c, null);\n    else if (m.preset === 'fresh') want = { power: true, mode: 'F', fan: P.fresh_fan || 'Q', econo: false };\n    else want = { power: false };\n    tier = 'preset_' + m.preset; safety = true;\n    reasons.push('until ' + fmtMin(localMin(m.presetUntil, cfg)));\n  } else if (m.mode === 'BOOST') {\n    const s = season || (isNum(home) && home > 22 ? 'cool' : 'heat');\n    want = runCmd(cfg, s, cfg.setpoints[s].comfort_c, null); tier = 'boost'; safety = true;\n    reasons.push('until ' + fmtMin(localMin(m.boostUntil, cfg)));\n  } else {\n    // AUTO\n    const presFresh = inp.presence && (now - inp.presence.ts_ms) <= cfg.stale.presence_max_age_s * 1000;\n    const someoneHome = !cfg.presence.required || !presFresh || inp.presence.anyone_home === true || homeByHand; // dead feed fails open\n    if (isNight) {\n      // Outside the solar day. Evening (window end -> bedtime): comfort on battery down to 85 %.\n      // Overnight (bedtime -> 05:00): fan only to keep air moving; the compressor only for a really\n      // hot/cold room, still above 85 %. A day run carries straight on into the evening.\n      resetLatches(m, DAY_TIERS);\n      const E = cfg.tiers.evening, N = cfg.tiers.night, F = cfg.tiers.night_fan;\n      const sp = season ? cfg.setpoints[season] : null;\n      const evening = inClock(t, Math.min(winEnd, lockEnd), hhmmToMin(E.until_hhmm));\n      const need = seasonNeeds(season);\n      // Night fan (owner 15 Oct): fresh air for the damp as much as for heat, so any season, when the room is warm\n      // OR humid; it stops if the room gets down to min_room_c, even though it may cool the house.\n      const fanEnter = isNum(home) && home > F.min_room_c + 1 && (home > F.above_c || (isNum(hum) && hum >= F.hum_above));\n      const fanStay = isNum(home) && home > F.min_room_c && (home > F.above_c - 1 || (isNum(hum) && hum > F.hum_above - 5));\n      const extreme = !sp || !isNum(home) ? null : (season === 'cool' ? home > N.hot_above_c : home < N.cold_below_c);\n      const backInComfort = !sp || !isNum(home) ? false : (season === 'cool' ? home <= sp.battery_c : home >= sp.battery_c);\n      if (E.enabled && evening && !m.latch.evening.on && DAY_TIERS.indexOf(m.tier) >= 0 && acOn &&\n          someoneHome && solar.soc >= E.soc_off && need !== false) {\n        m.latch.evening = { on: true, since: null };\n        logs.push('day window closed -> carried on as EVENING');\n      }\n      stepLatch(m.latch.evening, E.enabled && evening && !!season && someoneHome,\n        need === true && solar.soc >= E.soc_on, solar.soc >= E.soc_off, now, cfg);\n      // Bedtime handover: an evening run goes straight to the overnight compressor (really hot/cold)\n      // or to fan-only, rather than stopping at 20:00 and restarting minutes later.\n      if (!evening && m.tier === 'evening' && acOn && someoneHome) {\n        if (N.enabled && extreme === true && solar.soc >= N.soc_off) { m.latch.night = { on: true, since: null }; logs.push('bedtime -> carried on as NIGHT'); }\n        else if (F.enabled && fanEnter) { m.latch.night_fan = { on: true, since: null }; logs.push('bedtime -> fan only overnight'); }\n      }\n      stepLatch(m.latch.night, N.enabled && !evening && !!season && someoneHome,\n        extreme === true && solar.soc >= N.soc_on, solar.soc >= N.soc_off && !backInComfort, now, cfg);\n      stepLatch(m.latch.night_fan, F.enabled && !evening && someoneHome, fanEnter, fanStay, now, cfg);\n      // Battery-funded: the relaxed end of the owner's band (cool 24 / heat 21), not the tight solar setpoint.\n      if (m.latch.evening.on) { tier = 'evening'; want = runCmd(cfg, season, sp.battery_c, E); }\n      else if (m.latch.night.on) { tier = 'night'; want = runCmd(cfg, season, sp.battery_c, N); }\n      else if (arrivalOn) { tier = 'arrival'; want = arrivalWant(); reasons.push('someone is on the way home'); }\n      else if (m.latch.night_fan.on) { tier = 'night_fan'; want = { power: true, mode: 'F', fan: F.fan, econo: false }; }\n      else {\n        want = { power: false };\n        tier = !inClock(t, lockStart, lockEnd) ? 'time_lockout' : 'window_closed';\n        if (tier === 'window_closed') reasons.push('day window ended ' + fmtMin(winEnd));\n        if (need === false) reasons.push('room ' + home + 'C is comfortable');\n      }\n      reasons.push('soc ' + solar.soc + '%');\n    } else if (!season) {\n      want = { power: false }; tier = 'idle'; reasons.push('season unknown (no room temp yet)'); resetLatches(m);\n    } else {\n      const sp0 = cfg.setpoints[season], T0 = cfg.tiers;\n      resetLatches(m, NIGHT_TIERS);\n      // --- forecast (Open-Meteo, today) shapes how hard to pre-cool/heat; a missing forecast changes nothing ---\n      const FC = cfg.forecast, fcT = inp.forecast && inp.forecast.today;\n      const fcOk = FC && FC.enabled && fcT && isNum(fcT.max_c) && (now - inp.forecast.ts_ms) <= FC.max_age_h * 3600000 &&\n        fcT.date === localDayKey(now, cfg);\n      const T = JSON.parse(JSON.stringify(T0)), sp = JSON.parse(JSON.stringify(sp0));\n      if (fcOk) {\n        if (season === 'cool' && fcT.max_c >= FC.hot_day_c) {\n          T.soak.soc_on = Math.min(T.soak.soc_on, FC.hot_soak_soc_on); T.soak.surplus_on_w = Math.min(T.soak.surplus_on_w, FC.hot_soak_surplus_on_w);\n          sp.need_above_c = Math.min(sp.need_above_c, FC.hot_need_above_c);\n          reasons.push('hot day forecast ' + fcT.max_c + 'C: pre-cool early');\n        } else if (season === 'cool' && fcT.max_c < FC.mild_day_c) {\n          T.soak.enabled = false; reasons.push('mild day forecast ' + fcT.max_c + 'C: no pre-cool');\n        } else if (season === 'heat' && fcT.max_c < FC.cold_day_c) {\n          T.soak.soc_on = Math.min(T.soak.soc_on, FC.hot_soak_soc_on); reasons.push('cold day forecast ' + fcT.max_c + 'C: pre-heat early');\n        } else if (season === 'heat' && fcT.max_c >= FC.warm_winter_day_c) {\n          T.soak.enabled = false; reasons.push('warm day forecast ' + fcT.max_c + 'C: no pre-heat');\n        }\n        if (isNum(fcT.rad_mj) && fcT.rad_mj < FC.dull_mj) {\n          T.comfort.soc_on = Math.min(99, T.comfort.soc_on + FC.dull_comfort_soc_add); reasons.push('dull day: battery first');\n        }\n      }\n      // --- shared solar budget: the hot water has first claim. While the HW dispatcher could switch its element\n      // on but hasn't, its draw is reserved and curtailment doesn't count for the AC (HW takes the free energy first).\n      const B = cfg.budget;\n      const hwCould = !!(B && B.hw_priority && solar.hw_mode === 'DISPATCH' && !solar.hw_on && solar.soc >= B.hw_soc_on &&\n        (solar.curtailed || solar.surplus_w >= B.hw_on_surplus_w));\n      if (!hwCould) m.hwWaitSince = null; else if (!m.hwWaitSince) m.hwWaitSince = now;\n      // If the HW dispatcher hasn't taken it within 10 min it isn't going to (cylinder done, its own gates): stop waiting.\n      const hwPending = hwCould && now - m.hwWaitSince < 10 * 60000;\n      const reserve = hwPending ? B.hw_reserve_w : 0;\n      if (hwPending) reasons.push('hot water first');\n      const coldMorning = isNum(home) && home < cfg.setpoints.heat.need_below_c;\n      // Heating need: below need_below_c, or, when it is cold outside, below comfort - 1 (Owner: 22-23 when there is power)\n      const need = seasonNeeds(season);\n      const energy = function (tc, on) {\n        if (on && hwPending) return surplus - reserve >= tc.surplus_on_w;   // starting: only what's left after the HW\n        if (tc.curtailed_counts && solar.curtailed) return true;\n        return surplus >= (on ? tc.surplus_on_w : tc.surplus_off_w);\n      };\n      const roomNotYetAtSoak = !isNum(home) || (season === 'cool' ? home > sp.soak_c + 0.5 : home < sp.soak_c - 0.5);\n      const soc = solar.soc;\n\n      stepLatch(m.latch.soak, T.soak.enabled && (someoneHome || cfg.presence.soak_when_away),\n        soc >= T.soak.soc_on && energy(T.soak, true) && roomNotYetAtSoak,\n        soc >= T.soak.soc_off && energy(T.soak, false), now, cfg);\n      stepLatch(m.latch.comfort, T.comfort.enabled && someoneHome,\n        need === true && soc >= T.comfort.soc_on && energy(T.comfort, true),\n        soc >= T.comfort.soc_off && energy(T.comfort, false), now, cfg);\n      // Damp guard (owner 2026-10-13): dry mode when it's humid but the room is already comfortable; if it\n      // still needs cooling, the cool tiers above win (cooling dehumidifies too). Runs whether or not anyone is home.\n      const comfyRoom = isNum(home) && home <= cfg.setpoints.cool.need_above_c && home >= cfg.setpoints.heat.need_below_c;\n      stepLatch(m.latch.dry, T.dry.enabled && hum !== null,\n        hum >= T.dry.hum_on && comfyRoom && need !== true && soc >= T.dry.soc_on && energy(T.dry, true),\n        hum > T.dry.hum_off && isNum(home) && home >= T.dry.min_room_c && soc >= T.dry.soc_off && energy(T.dry, false), now, cfg);\n      if (m.latch.dry.on && !isNum(m.dryTemp)) m.dryTemp = Math.min(30, Math.max(18, Math.round(home * 2) / 2));\n      if (!m.latch.dry.on) m.dryTemp = null;\n      const inMorning = inClock(t, hhmmToMin(T.morning.start_hhmm), hhmmToMin(T.morning.end_hhmm));\n      // Morning warm-up: heat a cold house first thing, whatever the season (owner 2026-10-12).\n      stepLatch(m.latch.morning, T.morning.enabled && inMorning && someoneHome,\n        coldMorning && soc >= T.morning.soc_on,\n        soc >= T.morning.soc_off, now, cfg);\n      stepLatch(m.latch.eco, T.eco.enabled && someoneHome,\n        need === true && soc >= T.eco.soc_on,\n        soc >= T.eco.soc_off, now, cfg);\n\n      for (let i = 0; i < TIER_ORDER.length; i++) {\n        if (m.latch[TIER_ORDER[i]].on) { tier = TIER_ORDER[i]; break; }\n      }\n      if (tier === 'idle' && arrivalOn) {\n        tier = 'arrival'; want = arrivalWant(); reasons.push('someone is on the way home');\n      } else if (tier === 'idle') {\n        want = { power: false };\n        if (!someoneHome) reasons.push('nobody home');\n        else if (homeByHand && !(presFresh && inp.presence.anyone_home === true)) reasons.push('home: changed at the unit');\n        if (need === false) reasons.push('room ' + home + 'C is comfortable');\n        if (need === null) reasons.push('no room temp');\n      } else {\n        const temp = tier === 'soak' ? sp.soak_c : tier === 'eco' ? sp.eco_c : sp.comfort_c;\n        if (tier === 'morning') want = runCmd(cfg, 'heat', cfg.setpoints.heat.battery_c, T.morning);   // pre-dawn = battery\n        else if (tier === 'dry') { want = runCmd(cfg, season, m.dryTemp, T.dry); want.mode = 'D'; }\n        else want = runCmd(cfg, season, temp, T[tier]);\n      }\n      reasons.push('soc ' + soc + '%', 'surplus ' + Math.round(surplus) + 'W' + (solar.curtailed ? ' (curtailed)' : ''));\n    }\n  }\n\n  // 4b. fresh air whenever nothing else is running (owner 18 Oct: the house smells stale even when the temperature\n  // is right; run it day and night, home or away, no temperature stops for now; the logs will show how often the\n  // room leaves the comfort band). Fan only, quiet; the unit's fresh-air setting stays on at the unit. Not in OFF\n  // mode or a manual hold, and not past a safety cut-out (only LOAD_HEADROOM, which is about starting the\n  // compressor, allows it).\n  const FA = cfg.tiers.fresh_air;\n  const presOk = inp.presence && (now - inp.presence.ts_ms) <= cfg.stale.presence_max_age_s * 1000;\n  const anyoneHome = !cfg.presence.required || !presOk || inp.presence.anyone_home === true || homeByHand;\n  if (FA && FA.enabled && m.mode === 'AUTO' && !inHold && want && want.power === false &&\n      guards.every(function (g) { return g === 'LOAD_HEADROOM'; }) && (anyoneHome || FA.when_away)) {\n    want = { power: true, mode: 'F', fan: FA.fan, econo: false };\n    tier = 'fresh_air'; safety = false;\n  }\n\n  // 5. short-cycle protection (not for safety actions or deliberate user modes): about the COMPRESSOR.\n  // Fan-only can come and go freely; heat/cool/dry must run min_run and rest min_off.\n  const wantComp = !!(want && isCompMode(want));\n  const stopsComp = compOn && want && !wantComp, startsComp = !compOn && wantComp;\n  const lastCompOn = m.compOnAt || m.lastOnAt, lastCompOff = m.compOffAt || m.lastOffAt;\n  if (want && !safety) {\n    if (stopsComp && lastCompOn && now - lastCompOn < cfg.cycle.min_run_s * 1000) {\n      reasons.push('MIN_RUN holds it on');\n      want = null;\n    } else if (startsComp && lastCompOff && now - lastCompOff < cfg.cycle.min_off_s * 1000) {\n      reasons.push('MIN_OFF holds it off');\n      want = FA && FA.enabled && m.mode === 'AUTO' && !inHold && acOn && ac && ac.mode === 'F' ? null : { power: false };\n    } else if (want.power && acOn && ac && isNum(ac.temp) && Math.abs(ac.temp - want.temp) >= 0.5 &&\n               m.lastSetpointAt && now - m.lastSetpointAt < cfg.cycle.setpoint_min_interval_s * 1000) {\n      want.temp = ac.temp;  // pace setpoint changes\n      reasons.push('setpoint change paced');\n    }\n  }\n\n  // 6. turn the want into a command (only when it differs from what the AC reports)\n  let send = null;\n  if (want) {\n    const already = ac ? matches(ac, want) : (m.lastSent && matches(m.lastSent, want));\n    const sameAsSent = m.lastSent && matches(m.lastSent, want) && m.lastSent.econo === want.econo;\n    const sinceSent = m.lastSent ? now - m.lastSent.at : Infinity;\n    const econoDiffers = ac && want.power && ac.econo !== undefined && ac.econo !== want.econo;\n    if (!already || econoDiffers) {\n      if (!sameAsSent || (!m.lastSent.confirmed && sinceSent >= cfg.manual.detect_grace_s * 1000) ||\n          sinceSent >= cfg.commands.reassert_s * 1000) {\n        send = payloadFor(cfg, want, ac);\n        const attempts = sameAsSent ? (m.lastSent.attempts || 1) + 1 : 1;\n        if (want.power && send.temp !== undefined && (!m.lastSent || m.lastSent.temp !== want.temp)) m.lastSetpointAt = now;\n        // Record what was actually sent: a mode-only step has no setpoint yet, so it confirms on mode alone\n        // and the setpoint is sent as a fresh command next tick.\n        m.lastSent = Object.assign({}, want, send.temp === undefined && want.power && want.temp !== undefined ? { temp: null } : {}, { at: now, confirmed: false, attempts: attempts });\n        if (attempts >= 3) anomalies.push({ key: 'COMMAND_NOT_APPLIED', msg: 'Faikout has not applied ' + JSON.stringify(send) + ' after ' + attempts + ' tries' });\n      }\n    } else if (!m.lastSent || !sameAsSent) {\n      // The AC already looks the way we want (e.g. we started up mid-run): adopt it.\n      m.lastSent = Object.assign({}, want, { at: now, confirmed: true, attempts: 0 });\n    }\n  }\n\n  if (!acFresh) anomalies.push({ key: acRaw && acRaw.online === false ? 'AC_OFFLINE' : 'AC_TELEMETRY_STALE', msg: 'No fresh Faikout status; commands are unconfirmed' });\n  if (!solarOk) anomalies.push({ key: 'STALE_SOLAR', msg: 'Solar state stale or missing; AC held OFF' });\n\n  // de-duplicate anomalies: publish only on rising edge\n  const nowKeys = {};\n  const fresh = anomalies.filter(function (a) { nowKeys[a.key] = true; return !m.activeAnoms[a.key]; });\n  m.activeAnoms = nowKeys;\n\n  if (tier !== m.tier) { logs.push('tier ' + m.tier + ' -> ' + tier + (reasons.length ? ' (' + reasons.join(', ') + ')' : '')); m.tier = tier; m.tierSince = now; }\n\n  const status = {\n    ts: new Date(now).toISOString(),\n    mode: m.mode, tier: tier, tier_since: m.tierSince ? new Date(m.tierSince).toISOString() : null,\n    reasons: reasons, guards: guards, season: season,\n    room_c: home, room_src: tempSrc, outside_c: ac ? ac.outside : null,\n    soc: solarOk ? solar.soc : null, surplus_ex_ac_w: surplus === null ? null : Math.round(surplus),\n    curtailed: solarOk ? solar.curtailed : null, load_w: solarOk ? solar.load_w : null,\n    ac_fresh: acFresh, ac_on: acOn, ac_reported: ac ? { power: ac.power, mode: ac.mode, temp: ac.temp, fan: ac.fan, demand: ac.demand, comp: ac.comp, hum: ac.hum } : null,\n    want: want, sent: send, dry_run: !!cfg.dry_run,\n    manual_hold_until: m.manualHoldUntil ? new Date(m.manualHoldUntil).toISOString() : null,\n    home_by_hand_until: m.handHomeUntil ? new Date(m.handHomeUntil).toISOString() : null,\n    boost_until: m.boostUntil ? new Date(m.boostUntil).toISOString() : null,\n    preset: m.mode === 'PRESET' ? m.preset : null,\n    preset_until: m.mode === 'PRESET' && m.presetUntil ? new Date(m.presetUntil).toISOString() : null,\n    latches: TIER_ORDER.reduce(function (o, k) { o[k] = m.latch[k].on; return o; }, {}),\n  };\n  return { mem: m, tier: tier, guards: guards, desired: want, send: send, status: status, logs: logs, anomalies: fresh, events: events };\n}\n\n\n// ── Node-RED wrapper for function node `ac2.fn.disp` ─────────────────────────────────────\n// scripts/build.js prepends AC2_CONFIG, nodered/merge-deep.js and src/ac2-core.js to this file.\n// Inputs (msg.topic): bsf/hotwater/status, bsf/presence/state, bsf/ac/status, bsf/ac/plug_power,\n//   state/<host>, state/<host>/status, bsf/ac2/cmd, bsf/ac/cmd (existing dashboard), bsf/weather/forecast, tick (30 s inject).\n// Outputs (6):\n//   [0] REAL Faikout command  command/<host>        (UNWIRED in Phase 1; also suppressed while dry_run)\n//   [1] shadow                bsf/ac2/shadow        what it would send, always\n//   [2] status                bsf/ac2/status        retained\n//   [3] log                   bsf/ac2/log\n//   [4] anomaly               bsf/ac2/anomaly       qos 1\n//   [5] Faikout status poll   command/<host>/status read-only request, every tick\n//   [6] manual preference log bsf/ac2/manual        qos 1 (also last 200 kept in flow context ac2_manual_log)\n\nconst cfg = mergeDeep(AC2_CONFIG, flow.get('ac2_cfg_overrides') || {});\nconst host = cfg.faikout_host;\nconst now = Date.now();\nconst topic = msg.topic || '';\nlet p = msg.payload;\nif (typeof p === 'string') { try { p = JSON.parse(p); } catch (e) { /* keep string */ } }\n\nconst inp = flow.get('ac2_in') || {};\nlet mem = flow.get('ac2_mem') || freshMem();\nconst logs = [];\nlet evaluate = topic === 'tick';\n\nif (topic === 'bsf/hotwater/status') {\n  inp.solar = normalizeHw(p, now);\n} else if (topic === 'bsf/weather/forecast') {\n  // Open-Meteo forecast relayed by the farm iMac (scripts/ac2_weather.py). CC BY 4.0, Open-Meteo.com.\n  if (p && p.today && typeof p.today.max_c === 'number') inp.forecast = { ts_ms: Date.parse(p.ts) || now, today: p.today, tomorrow: p.tomorrow || null };\n} else if (topic === 'bsf/presence/coming_home') {\n  // Farm Homecoming app (via scripts/ac2_homecoming.py): someone is driving home. Retained, so check its time.\n  if (p && p.ts) inp.arrival = { ts_ms: Date.parse(p.ts) || 0, eta_min: p.eta_min };\n} else if (topic === 'bsf/presence/state') {\n  inp.presence = { ts_ms: now, anyone_home: !!(p && p.anyone_home === true) };\n} else if (topic === 'bsf/ac/status') {\n  if (p && typeof p.inside_temp === 'number') {\n    inp.inside = { ts_ms: now - (Number(p.inside_temp_age_s) || 0) * 1000, c: p.inside_temp };\n  }\n} else if (topic === 'bsf/ac2/probe') {\n  // Tuya inside probe, raw, from the farm iMac each minute (scripts/ac2_recorder.py). Offset applied in the core.\n  if (p && typeof p.raw_c === 'number') inp.inside = { ts_ms: Date.parse(p.ts) || now, c: p.raw_c };\n} else if (topic === 'bsf/ac2/room_ref') {\n  // Reference room thermometer (Inkbird 4 on the fridge, via a second Pi and the farm iMac). ts = when it was read.\n  if (p && typeof p.c === 'number') inp.room_ref = { ts_ms: Date.parse(p.ts) || 0, c: p.c, hum: typeof p.hum === 'number' ? p.hum : null, src: String(p.src || 'ref') };\n} else if (topic === 'bsf/ac/plug_power') {\n  const w = Number(p);\n  if (isFinite(w)) inp.ac_draw = { ts_ms: now, w: w };\n} else if (topic === 'state/' + host) {\n  // RevK library: retained JSON while up, `false` (last will) when the Faikout drops off.\n  const up = !(p === false || p === 'false' || (p && p.up === false));\n  inp.faikout_up = up;\n  if (inp.ac) inp.ac.online = up ? inp.ac.online : false;\n  // Live heartbeat (~30 s). The Faikout publishes status on every change (livestatus), so while it is up the\n  // last status is still the current one: keep it fresh. A retained heartbeat proves nothing (could be old).\n  if (up && !msg.retain && inp.ac) inp.ac.ts_ms = now;\n} else if (topic === 'state/' + host + '/status') {\n  inp.ac = normalizeFaikout(p, now);\n  // A retained status is a snapshot from whenever it was last published (maybe before a power\n  // cut), so it is never \"fresh\". Only state/<host> {up:true} brings the Faikout back online.\n  if (inp.ac && msg.retain) inp.ac.ts_ms = 0;\n  if (inp.ac && inp.faikout_up === false) inp.ac.online = false;\n} else if (topic === 'Faikout/' + host) {\n  // Minute summary: same readings, as a value or [min, avg, max] when it moved during the minute.\n  if (p && inp.ac && !msg.retain) {\n    const v = function (x) { return Array.isArray(x) ? x[1] : x; };\n    ['home', 'outside', 'hum', 'env'].forEach(function (k) { if (typeof v(p[k]) === 'number') inp.ac[k] = v(p[k]); });\n    inp.ac.ts_ms = now;\n  }\n} else if (topic === 'bsf/ac2/cmd' || topic === 'bsf/ac/cmd') {\n  // bsf/ac/cmd is the existing dashboard's AC panel (v1.x schema): translate it so the\n  // AUTO / ON (boost) / OFF / +30 min buttons keep working with v2.\n  let c = p;\n  if (topic === 'bsf/ac/cmd') {\n    c = null;\n    if (p && p.action === 'set_mode') {\n      const md = String(p.mode || '').toUpperCase();\n      if (md === 'AUTO' || md === 'OFF') c = { cmd: 'set_mode', mode: md };\n      else if (md === 'ON') c = { cmd: 'boost' };\n      else if (md === 'SCHEDULE') { c = { cmd: 'set_mode', mode: 'AUTO' }; logs.push('SCHEDULE is not in v2 yet -> AUTO'); }\n    } else if (p && p.action === 'extend_boost') {\n      c = { cmd: 'extend_boost', minutes: (Number(p.add_sec) || 1800) / 60 };\n    }\n    if (!c) { flow.set('ac2_in', inp); return [null, null, null, [{ topic: 'bsf/ac2/log', payload: { ts: new Date(now).toISOString(), msg: 'dashboard cmd ignored by v2: ' + JSON.stringify(p) } }], null, null, null]; }\n  }\n  const r = applyCommand(cfg, mem, c, now);\n  mem = r.mem;\n  logs.push(r.log);\n  evaluate = true;\n} else if (topic !== 'tick') {\n  return null;\n}\nflow.set('ac2_in', inp);\n\nconst out = [null, null, null, null, null, null, null];\n// Just (re)started: retained inputs take a few seconds to arrive. Judging \"stale\" before the first solar\n// reading would cut a running aircon on every redeploy, so wait up to 90 s for it.\nconst started = flow.get('ac2_start_ms') || 0;\nif (evaluate && !inp.solar && now - started < 90000) {\n  node.status({ fill: 'grey', shape: 'ring', text: 'starting: waiting for solar data' });\n  evaluate = false;\n}\nif (evaluate) {\n  const r = decide(cfg, inp, mem, now);\n  mem = r.mem;\n  flow.set('ac2_last_eval_ms', now);\n  if (r.send) {\n    const cmd = { topic: 'command/' + host, payload: JSON.stringify(r.send), qos: 1, retain: false };\n    if (!cfg.dry_run) out[0] = cmd;\n    out[1] = { topic: 'bsf/ac2/shadow', payload: { ts: r.status.ts, dry_run: !!cfg.dry_run, tier: r.tier, topic: cmd.topic, command: r.send } };\n  }\n  out[2] = { topic: 'bsf/ac2/status', payload: r.status, retain: true };\n  r.logs.forEach(function (l) { logs.push(l); });\n  if (r.anomalies.length) out[4] = r.anomalies.map(function (a) { return { topic: 'bsf/ac2/anomaly', payload: { ts: r.status.ts, key: a.key, msg: a.msg }, qos: 1 }; });\n  if (topic === 'tick') out[5] = { topic: 'command/' + host + '/status', payload: '' };\n  if (r.events.length) {\n    const ring = (flow.get('ac2_manual_log') || []).concat(r.events).slice(-200);\n    flow.set('ac2_manual_log', ring);\n    out[6] = r.events.map(function (e) { return { topic: 'bsf/ac2/manual', payload: e, qos: 1, retain: false }; });\n  }\n  node.status({\n    fill: r.guards.length ? 'red' : (r.status.ac_on ? 'green' : 'grey'),\n    shape: cfg.dry_run ? 'ring' : 'dot',\n    text: (cfg.dry_run ? 'DRY ' : '') + r.status.mode + ' / ' + r.tier + (r.status.soc !== null ? ' soc ' + r.status.soc : ''),\n  });\n}\nflow.set('ac2_mem', mem);\nif (logs.length) out[3] = logs.map(function (l) { return { topic: 'bsf/ac2/log', payload: { ts: new Date(now).toISOString(), msg: l } }; });\nreturn out;\n",
+    "outputs": 7,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "flow.set('ac2_in', {});\nflow.set('ac2_last_eval_ms', Date.now());\nflow.set('ac2_start_ms', Date.now());",
+    "finalize": "",
+    "libs": [],
+    "x": 470,
+    "y": 240,
+    "wires": [
+      [],
+      [
+        "ac2.out.shadow"
+      ],
+      [
+        "ac2.out.status"
+      ],
+      [
+        "ac2.out.log"
+      ],
+      [
+        "ac2.out.anomaly"
+      ],
+      [
+        "ac2.out.poll"
+      ],
+      [
+        "ac2.out.manual"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.inject.wd",
+    "type": "inject",
+    "z": "ac2.tab",
+    "name": "watchdog 5 min",
+    "props": [
+      {
+        "p": "topic",
+        "vt": "str"
+      },
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "300",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "60",
+    "topic": "watchdog",
+    "payload": "",
+    "payloadType": "date",
+    "x": 170,
+    "y": 480,
+    "wires": [
+      [
+        "ac2.fn.watchdog"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.fn.watchdog",
+    "type": "function",
+    "z": "ac2.tab",
+    "name": "AC v2 watchdog",
+    "func": "// AC v2 (Faikout) — watchdog ac2.fn.watchdog — GENERATED by scripts/build.js, do not edit; edit src/ or nodered/ and rebuild.\n// sha256[:16] of body below: b4bcb22f0ebe8b09   dry_run: true   host: daikin1\nconst AC2_CONFIG = {\n  \"faikout_host\": \"daikin1\",\n  \"dry_run\": true,\n  \"tz_offset_min\": 600,\n  \"stale\": {\n    \"solar_max_age_s\": 120,\n    \"ac_max_age_s\": 300,\n    \"presence_max_age_s\": 900,\n    \"ac_draw_max_age_s\": 300\n  },\n  \"time_lockout\": {\n    \"start_hhmm\": \"05:00\",\n    \"end_hhmm\": \"18:00\"\n  },\n  \"window\": {\n    \"end_before_sunset_min\": 90,\n    \"fallback_end_hhmm\": \"16:00\"\n  },\n  \"battery\": {\n    \"soc_floor_pct\": 75,\n    \"boost_soc_floor_pct\": 75\n  },\n  \"sensors\": {\n    \"_note\": \"owner 15 Oct: run the room off the aircon sensor (the kitchen/lounge is the room to heat; the bedroom probe reads 4-7 C high and the bedroom is warmer with people asleep). Measured 14-15 Oct vs five Inkbirds: aircon sensor +0.3 C with the fan running; idle it drifts to +3.9 C over ~12 min. The Tuya probe is only a fallback if the aircon is unreachable (probe_fallback).\",\n    \"ac_idle_offset_c\": -3.9,\n    \"ac_idle_ramp_min\": 12,\n    \"ac_heat_offset_c\": -2,\n    \"heat_setpoint_add_c\": 2,\n    \"cool_setpoint_add_c\": 0,\n    \"_setpoint_add\": \"Setpoints are ROOM temperatures (Inkbird 4). Added to what is sent to the unit because its own sensor reads high: heating +2.0 C measured 15 Oct (one morning; refine from the Sunday calibration report). Cooling not measured yet.\",\n    \"probe_fallback\": false,\n    \"probe_offset_c\": -6.5,\n    \"probe_max_age_s\": 600\n  },\n  \"load\": {\n    \"cap_w\": 4200,\n    \"hw_drawing_w\": 100,\n    \"ac_est_draw_w\": 700,\n    \"fan_est_draw_w\": 30\n  },\n  \"presence\": {\n    \"required\": true,\n    \"soak_when_away\": true,\n    \"hand_change_home_h\": 4,\n    \"_hand_change_home_h\": \"A change at the unit (remote) counts as someone home for this many hours: phones in airplane mode read as away (owner 20 Oct). 0 = off.\"\n  },\n  \"season\": {\n    \"mode\": \"auto\",\n    \"cool_months\": [\n      11,\n      12,\n      1,\n      2,\n      3\n    ],\n    \"heat_months\": [\n      5,\n      6,\n      7,\n      8,\n      9\n    ],\n    \"shoulder_cool_if_home_above_c\": 27,\n    \"shoulder_cool_day_max_c\": 27,\n    \"_shoulder\": \"Apr/Oct: a cooling day only if the forecast max is >= 27 or the room starts above 27 (both 24 before the 26 C target, 21 Oct), so heating to 26 is not undone by solar pre-cooling to 24.\",\n    \"cold_outside_c\": 18,\n    \"cold_day_max_c\": 20,\n    \"warm_outside_c\": 26,\n    \"warm_day_max_c\": 28,\n    \"_cold_outside\": \"owner 15 Oct: cold outside -> want it warmer inside. Below these, a room under heat comfort - 1 (22 C) counts as cold and heats (on the usual battery/solar rules).\"\n  },\n  \"setpoints\": {\n    \"_note\": \"owner 2026-10-13: acceptable household range 19-26 C; 22-23 when there is power for it. 15 Oct heat raised to his 22-23 (room temps, Inkbird 4): battery 22, comfort 23, soak 24. Hot water has priority over the aircon. 21 Oct Owner: make the house sit around 26 C: heat comfort 26 (heats below 25 on a cold day, below 24 any day), soak 27, battery 25; cooling moved up to match (comfort 26, starts above 28) so heating to 26 never trips the cool side.\",\n    \"cool\": {\n      \"need_above_c\": 28,\n      \"comfort_c\": 26,\n      \"soak_c\": 24,\n      \"battery_c\": 26,\n      \"eco_c\": 27\n    },\n    \"heat\": {\n      \"need_below_c\": 24,\n      \"comfort_c\": 26,\n      \"soak_c\": 27,\n      \"battery_c\": 25,\n      \"eco_c\": 24\n    }\n  },\n  \"tiers\": {\n    \"soak\": {\n      \"enabled\": true,\n      \"soc_on\": 97,\n      \"soc_off\": 93,\n      \"surplus_on_w\": 1500,\n      \"surplus_off_w\": 600,\n      \"curtailed_counts\": true,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"comfort\": {\n      \"enabled\": true,\n      \"soc_on\": 90,\n      \"soc_off\": 85,\n      \"surplus_on_w\": 900,\n      \"surplus_off_w\": 300,\n      \"curtailed_counts\": true,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"morning\": {\n      \"enabled\": true,\n      \"start_hhmm\": \"05:00\",\n      \"end_hhmm\": \"08:00\",\n      \"soc_on\": 80,\n      \"soc_off\": 75,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"dry\": {\n      \"enabled\": true,\n      \"hum_on\": 65,\n      \"hum_off\": 55,\n      \"soc_on\": 90,\n      \"soc_off\": 85,\n      \"surplus_on_w\": 700,\n      \"surplus_off_w\": 200,\n      \"curtailed_counts\": true,\n      \"min_room_c\": 19,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"eco\": {\n      \"enabled\": false,\n      \"soc_on\": 85,\n      \"soc_off\": 80,\n      \"demand\": 50,\n      \"econo\": true\n    },\n    \"evening\": {\n      \"enabled\": true,\n      \"until_hhmm\": \"20:00\",\n      \"soc_on\": 87,\n      \"soc_off\": 85,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"night\": {\n      \"enabled\": true,\n      \"soc_on\": 87,\n      \"soc_off\": 85,\n      \"hot_above_c\": 28.5,\n      \"cold_below_c\": 18.5,\n      \"demand\": 100,\n      \"econo\": false\n    },\n    \"night_fan\": {\n      \"enabled\": true,\n      \"above_c\": 22,\n      \"fan\": \"Q\",\n      \"hum_above\": 65,\n      \"min_room_c\": 17\n    },\n    \"fresh_air\": {\n      \"enabled\": true,\n      \"fan\": \"Q\",\n      \"when_away\": true,\n      \"_note\": \"owner 18 Oct: fresh-air fan whenever the aircon is not heating/cooling/drying, day and night, home or away, no temperature stops (for now; the logs show how often the room leaves the band).\"\n    },\n    \"arrival\": {\n      \"enabled\": true,\n      \"window_min\": 45,\n      \"soc_on\": 85,\n      \"soc_off\": 85,\n      \"band_c\": 1,\n      \"demand\": 100,\n      \"econo\": false\n    }\n  },\n  \"forecast\": {\n    \"enabled\": true,\n    \"max_age_h\": 12,\n    \"hot_day_c\": 30,\n    \"mild_day_c\": 24,\n    \"cold_day_c\": 14,\n    \"warm_winter_day_c\": 20,\n    \"dull_mj\": 12,\n    \"hot_soak_soc_on\": 93,\n    \"hot_soak_surplus_on_w\": 1000,\n    \"hot_need_above_c\": 27,\n    \"dull_comfort_soc_add\": 3\n  },\n  \"budget\": {\n    \"hw_priority\": true,\n    \"hw_reserve_w\": 3200,\n    \"hw_on_surplus_w\": 1800,\n    \"hw_soc_on\": 80\n  },\n  \"sustain\": {\n    \"on_s\": 90,\n    \"off_s\": 180\n  },\n  \"cycle\": {\n    \"min_run_s\": 1200,\n    \"min_off_s\": 600,\n    \"setpoint_min_interval_s\": 600\n  },\n  \"commands\": {\n    \"reassert_s\": 120,\n    \"use_demand\": \"auto\",\n    \"fan\": \"A\"\n  },\n  \"manual\": {\n    \"detect_grace_s\": 120,\n    \"hold_min\": 60,\n    \"settle_s\": 60,\n    \"guards_in_hold\": [\n      \"soc_floor\",\n      \"load_cap\",\n      \"night_soc\"\n    ]\n  },\n  \"boost\": {\n    \"default_min\": 120,\n    \"max_min\": 360\n  },\n  \"presets\": {\n    \"names\": [\n      \"warm\",\n      \"cool\",\n      \"fresh\",\n      \"off\"\n    ],\n    \"default_min\": 60,\n    \"warm_room_c\": 26,\n    \"cool_room_c\": 21,\n    \"fresh_fan\": \"Q\",\n    \"_note\": \"owner 18 Oct: one-tap presets for 1 h (like a hand change), then AUTO. warm = heat the room to 24 C (the unit shows Heat 26), cool = cool to 21 C, fresh = fan only, off = off. Battery floor still cuts warm/cool.\"\n  }\n};\n\n// Config overrides from flow context (`ac2_cfg_overrides`) are deep-merged over AC2_CONFIG,\n// so the dashboard can tune one threshold without restating the rest.\nfunction mergeDeep(base, over) {\n  if (!over || typeof over !== 'object' || Array.isArray(over)) return over === undefined ? base : over;\n  const out = Array.isArray(base) ? base.slice() : Object.assign({}, base);\n  Object.keys(over).forEach(function (k) {\n    out[k] = (base && typeof base[k] === 'object' && !Array.isArray(base[k])) ? mergeDeep(base[k], over[k]) : over[k];\n  });\n  return out;\n}\n\n// ── AC v2 watchdog: function node `ac2.fn.watchdog`, fired every 5 min by its own inject ──\n// Independent of the dispatcher on purpose (same idea as the v1 LOCKOUT loop): if the\n// dispatcher has stopped evaluating, or solar data has gone stale, and the Faikout says the\n// AC is running under automation, force it OFF. It never fights a manual hold, a boost or a preset.\n// scripts/build.js prepends AC2_CONFIG and nodered/merge-deep.js.\n// Outputs (3): [0] REAL Faikout command (UNWIRED in Phase 1)  [1] bsf/ac2/shadow  [2] bsf/ac2/anomaly\n\nconst cfg = mergeDeep(AC2_CONFIG, flow.get('ac2_cfg_overrides') || {});\nconst host = cfg.faikout_host;\nconst now = Date.now();\nconst inp = flow.get('ac2_in') || {};\nconst mem = flow.get('ac2_mem') || {};\nconst lastEval = flow.get('ac2_last_eval_ms') || 0;\n\nconst acOn = !!(inp.ac && inp.ac.power && now - inp.ac.ts_ms <= cfg.stale.ac_max_age_s * 1000);\nconst dispatcherDead = now - lastEval > 180000;\nconst solarStale = !inp.solar || now - inp.solar.ts_ms > cfg.stale.solar_max_age_s * 1000;\nconst userOwned = mem.mode === 'BOOST' || mem.mode === 'PRESET' || (mem.manualHoldUntil && now < mem.manualHoldUntil);\n\nif (!acOn || userOwned || (!dispatcherDead && !solarStale)) {\n  node.status({ fill: 'grey', shape: 'ring', text: 'ok ' + new Date(now).toISOString().slice(11, 16) });\n  return null;\n}\nconst why = dispatcherDead ? 'dispatcher not evaluating for ' + Math.round((now - lastEval) / 1000) + ' s' : 'solar state stale';\nconst cmd = { topic: 'command/' + host, payload: JSON.stringify({ power: false }), qos: 1, retain: false };\nnode.status({ fill: 'red', shape: 'dot', text: 'FORCE OFF: ' + why });\nreturn [\n  cfg.dry_run ? null : cmd,\n  { topic: 'bsf/ac2/shadow', payload: { ts: new Date(now).toISOString(), dry_run: !!cfg.dry_run, tier: 'watchdog', topic: cmd.topic, command: { power: false } } },\n  { topic: 'bsf/ac2/anomaly', payload: { ts: new Date(now).toISOString(), key: 'WATCHDOG_FORCE_OFF', msg: 'Watchdog forced AC off: ' + why }, qos: 1 },\n];\n",
+    "outputs": 3,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 470,
+    "y": 480,
+    "wires": [
+      [],
+      [
+        "ac2.out.shadow"
+      ],
+      [
+        "ac2.out.anomaly"
+      ]
+    ]
+  },
+  {
+    "id": "ac2.out.shadow",
+    "type": "mqtt out",
+    "z": "ac2.tab",
+    "name": "bsf/ac2/shadow",
+    "topic": "bsf/ac2/shadow",
+    "qos": "0",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "hwv3.broker",
+    "x": 760,
+    "y": 160,
+    "wires": []
+  },
+  {
+    "id": "ac2.out.status",
+    "type": "mqtt out",
+    "z": "ac2.tab",
+    "name": "bsf/ac2/status",
+    "topic": "bsf/ac2/status",
+    "qos": "0",
+    "retain": "true",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "hwv3.broker",
+    "x": 760,
+    "y": 200,
+    "wires": []
+  },
+  {
+    "id": "ac2.out.log",
+    "type": "mqtt out",
+    "z": "ac2.tab",
+    "name": "bsf/ac2/log",
+    "topic": "bsf/ac2/log",
+    "qos": "0",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "hwv3.broker",
+    "x": 760,
+    "y": 240,
+    "wires": []
+  },
+  {
+    "id": "ac2.out.anomaly",
+    "type": "mqtt out",
+    "z": "ac2.tab",
+    "name": "bsf/ac2/anomaly",
+    "topic": "bsf/ac2/anomaly",
+    "qos": "1",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "hwv3.broker",
+    "x": 760,
+    "y": 280,
+    "wires": []
+  },
+  {
+    "id": "ac2.out.manual",
+    "type": "mqtt out",
+    "z": "ac2.tab",
+    "name": "bsf/ac2/manual",
+    "topic": "bsf/ac2/manual",
+    "qos": "1",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "hwv3.broker",
+    "x": 760,
+    "y": 360,
+    "wires": []
+  },
+  {
+    "id": "ac2.out.poll",
+    "type": "mqtt out",
+    "z": "ac2.tab",
+    "name": "Faikout status poll (msg.topic)",
+    "topic": "",
+    "qos": "",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "hwv3.broker",
+    "x": 760,
+    "y": 320,
+    "wires": []
+  },
+  {
+    "id": "ac2.out.cmd",
+    "type": "mqtt out",
+    "z": "ac2.tab",
+    "name": "Faikout command (msg.topic) — unwired in SHADOW",
+    "topic": "",
+    "qos": "1",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "hwv3.broker",
+    "x": 760,
+    "y": 400,
+    "wires": []
+  }
+]

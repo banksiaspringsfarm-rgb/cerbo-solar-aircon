@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+__pycache__/
+data/
+backups/
+config/remote.json
+config/homecoming-token.txt
+local.properties
+android-homecoming/app/build/
+android-homecoming/.gradle/
