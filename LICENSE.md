@@ -1,6 +1,6 @@
-# Licence — BSF Solar Dispatch
+# Licence — cerbo-solar-aircon
 
-Required Notice: Copyright 2026 Steven McNichol, Banksia Springs Farm (https://github.com/banksiaspringsfarm-rgb/bsf-solar-dispatch-starter)
+Required Notice: Copyright 2026 Steven McNichol, Banksia Springs Farm (https://github.com/banksiaspringsfarm-rgb/cerbo-solar-aircon)
 
 **Plain English (the licence text below is what counts):**
 

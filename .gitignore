@@ -8,3 +8,10 @@ config/homecoming-token.txt
 local.properties
 android-homecoming/app/build/
 android-homecoming/.gradle/
+# owner's local notes for sharing the kit; never published with it
+STATUS.md
+DECISIONS.md
+CONTEXT.md
+HANDOFF.txt
+handoff/
+docs/SHARING-PLAN.md

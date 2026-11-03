@@ -113,7 +113,7 @@ if anything differs.
 | `bsf/ac2/shadow` | no | every command it sends *or would send* (`dry_run` flag, target topic, payload) |
 | `bsf/ac2/log` | no | tier changes, manual-hold start/end, boost start/end |
 | `bsf/ac2/anomaly` | no (QoS 1) | rising-edge only: `STALE_SOLAR`, `AC_OFFLINE`, `AC_TELEMETRY_STALE`, `COMMAND_NOT_APPLIED`, `BOOST_CUT_SOC`, `WATCHDOG_FORCE_OFF` |
-| `bsf/ac2/manual` | no (QoS 1) | manual-preference events: `manual_change` (from → to + context) and `hold_end` (outcome). Logged + sent to Telegram by `scripts/ac2_manual_watch.py` on the farm iMac (launchd `farm.bsf.ac2-manual-watch`, persistent session). |
+| `bsf/ac2/manual` | no (QoS 1) | manual-preference events: `manual_change` (from → to + context) and `hold_end` (outcome). On my site a small watcher on the always-on Mac logs these and sends them to my phone (not included; any MQTT client subscribed with a persistent session will do). |
 | `bsf/ac2/cmd` | no | dashboard/manual: `{"cmd":"set_mode","mode":"AUTO"\|"OFF"}`, `{"cmd":"boost","minutes":120}`, `{"cmd":"extend_boost","minutes":30}`, `{"cmd":"clear_hold"}`, `{"cmd":"set_season","season":"heat"\|"cool"\|"auto"}` |
 
 Thresholds can be tuned live without a redeploy by writing a partial config into flow context `ac2_cfg_overrides`
@@ -145,7 +145,7 @@ time v1.15 switches the plug off, the Faikout goes dark** and drops off MQTT. Co
 | 0 | Fit the Faikout, put it on WiFi, point it at the Cerbo broker (`docs/FAIKIN-SETUP.md`) | the owner (physical), Claude verifies topics from the iMac | none to the solar system |
 | ~~1~~ | **Shadow — skipped at the owner's request.** Import `dist/ac2-flow.json` with `dry_run: true` and real outputs unwired. v2 reads real data and publishes what it *would* do on `bsf/ac2/shadow`. Fix field names from real telemetry. Plug held on, and v1.15's plug wires disabled (the owner decides when). | Claude prepares, the owner approves the deploy | none: v2 cannot command the AC |
 | 2 | **Live (done 2026-10-12, `scripts/deploy.js --go`).** Dispatcher `[0]` + watchdog `[0]` wired, `dry_run: false`, v1.15's plug link cut, plug left on. Existing dashboard buttons (`bsf/ac/cmd`: AUTO / ON = boost / OFF / +30 min) are translated by v2. Still to do: the Faikout daily off-time backstop (the owner's call). | done | v2 drives the AC; guards + watchdog |
-| 3 | Dashboard Air-Con panel on v2 + 24 h graphs, relay `ac2` block, phone widget aircon line, Mac 3-site widget, Telegram preference log, minute recorder — **done 2026-10-12 night** (see docs/WORKLOG-2026-10-12-overnight.md). Still later: shared surplus budget across loads; a trip-logging app "heading home" pre-cool. | done / later | — |
+| 3 | Dashboard Air-Con panel on v2 + 24 h graphs, relay `ac2` block, phone widget aircon line, Mac 3-site widget, Telegram preference log, minute recorder — **done 2026-10-12 night**. Still later: shared surplus budget across loads; a trip-logging app "heading home" pre-cool. | done / later | — |
 
 ## Adding more loads later
 
