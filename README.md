@@ -118,6 +118,14 @@ with a shared token. It sends an ETA, never a location. Put `HOMECOMING_URL` and
 - Each dispatcher on my Cerbo reads the same surplus on its own; a proper shared surplus allocator across
   loads is not built yet.
 - The Daikin's own humidify feature (Ururu) is not supported by the Faikout.
+- Hard battery limits that no setting or override can go below: 50% state of charge on lead, gel or AGM
+  (also used when the chemistry isn't set), 25% on lithium, and an optional battery-voltage floor. They stop a
+  manual hold or a boost too. 12 V systems and banks under 5 kWh are refused. See `docs/CONTROL-LOGIC.md`.
+
+## Free, and a coffee if you like
+
+It's free for personal use and always will be. If it saves you some battery and you feel like it, there's a
+Ko-fi page: https://ko-fi.com/banksiaspringsfarm. Nothing is locked behind it.
 
 ## Licence
 
