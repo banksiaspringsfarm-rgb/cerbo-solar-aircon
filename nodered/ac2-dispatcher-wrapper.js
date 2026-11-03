@@ -1,5 +1,5 @@
 // ── Node-RED wrapper for function node `ac2.fn.disp` ─────────────────────────────────────
-// scripts/build.js prepends AC2_CONFIG, nodered/merge-deep.js and src/ac2-core.js to this file.
+// scripts/build.js prepends AC2_CONFIG, nodered/merge-deep.js, src/ac2-limits.js and src/ac2-core.js to this file.
 // Inputs (msg.topic): bsf/hotwater/status, bsf/presence/state, bsf/ac/status, bsf/ac/plug_power,
 //   state/<host>, state/<host>/status, bsf/ac2/cmd, bsf/ac/cmd (existing dashboard), bsf/weather/forecast, tick (30 s inject).
 // Outputs (6):
@@ -11,7 +11,7 @@
 //   [5] Faikout status poll   command/<host>/status read-only request, every tick
 //   [6] manual preference log bsf/ac2/manual        qos 1 (also last 200 kept in flow context ac2_manual_log)
 
-const cfg = mergeDeep(AC2_CONFIG, flow.get('ac2_cfg_overrides') || {});
+const cfg = clampConfig(mergeDeep(AC2_CONFIG, flow.get('ac2_cfg_overrides') || {})).cfg;   // hard limits beat overrides too
 const host = cfg.faikout_host;
 const now = Date.now();
 const topic = msg.topic || '';

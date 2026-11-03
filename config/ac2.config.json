@@ -15,7 +15,8 @@
   "time_lockout": { "start_hhmm": "05:00", "end_hhmm": "18:00" },
   "window": { "end_before_sunset_min": 90, "fallback_end_hhmm": "16:00" },
 
-  "battery": { "soc_floor_pct": 75, "boost_soc_floor_pct": 75 },
+  "battery": { "chemistry": "lead", "soc_floor_pct": 75, "boost_soc_floor_pct": 75,
+               "_limits": "src/ac2-limits.js: no setting or override goes below 50 % on lead (25 % lithium). Optional: system_v (24|48), voltage_floor_v (needs batt_v in the solar state), capacity_kwh." },
   "sensors": {
                "_note": "owner 15 Oct: run the room off the aircon sensor (the kitchen/lounge is the room to heat; the bedroom probe reads 4-7 C high and the bedroom is warmer with people asleep). Measured 14-15 Oct vs five Inkbirds: aircon sensor +0.3 C with the fan running; idle it drifts to +3.9 C over ~12 min. The Tuya probe is only a fallback if the aircon is unreachable (probe_fallback).",
                "ac_idle_offset_c": -3.9,

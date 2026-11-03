@@ -53,10 +53,32 @@ send a command only if the AC doesn't already look like that
 | `SOC_FLOOR` | SOC < **75 %** (`battery.soc_floor_pct`, same for boost) | Lead-gel bank. This is the v1.15 floor, unchanged. |
 | `LOAD_CAP` | AC on, house load > **4200 W**, hot water *not* drawing | Trailer-lead cap. This is v1.9's cascade rule: if HW is drawing, its own dispatcher sheds first. |
 | `LOAD_HEADROOM` | AC off and load + 700 W > 4200 W | Don't start into a full lead |
+| `HARD_SOC_FLOOR` | SOC below the battery chemistry's hard floor: **50 %** lead/gel/AGM (`battery.chemistry: "lead"`, also the default) or **25 %** lithium | The floor no setting or override can go below (owner, 4 Nov 2026). Applies in a manual hold, a boost and a preset too, whatever `manual.guards_in_hold` says. |
+| `BATT_VOLTAGE` | Only if `battery.voltage_floor_v` is set: battery voltage (`batt_v` in the solar state) below it, **or missing** | Second check that doesn't trust the SOC estimate. Never runs blind once a floor is configured. The original site has no voltage in its feed, so it is off there. |
+
+### Hard limits (`src/ac2-limits.js`)
+
+The config and the live overrides (`ac2_cfg_overrides`) can tune everything, but every tick both the dispatcher and
+the watchdog clamp the merged settings first. They guard against a mistyped number or a careless override, not against
+someone editing the code (the owner: anyone can edit it; it's a guard, not a lock).
+
+| Setting | Limit |
+|---|---|
+| `battery.soc_floor_pct`, `boost_soc_floor_pct` | raised to at least the chemistry's hard floor (50 % lead, 25 % lithium). An unknown chemistry gets the lead floor. |
+| `battery.voltage_floor_v` (with `system_v`) | raised to at least 1.95 V per cell on lead (46.8 V at 48 V) or 3.0 V per cell on lithium, counting cells down (45 V at 48 V, so a 15-cell Pylontech isn't tripped) |
+| `load.cap_w` | at most 70 % of `load.inverter_continuous_w`, when that is given |
+| `cycle.min_off_s` | at least 180 s |
+| `stale.solar_max_age_s` / `ac_max_age_s` | at most 600 s / 900 s |
+
+`scripts/build.js` refuses to build from a config with `battery.system_v` other than 24 or 48 (an aircon is too big a
+load for 12 V), a `capacity_kwh` under 5, or a chemistry it doesn't know, and prints anything it raised. The shipped
+config passes untouched (75 % floor, no voltage floor). Set `battery.chemistry`, `system_v`, `capacity_kwh` and,
+if your solar state carries the battery voltage, `voltage_floor_v` for your own bank.
 
 There are also three layers of backstop beyond the dispatcher:
 1. **Watchdog node** (every 5 min, separate function node). If the dispatcher hasn't evaluated for 3 min, or
-   solar data is stale, and the AC is on under automation, it sends power off.
+   solar data is stale, and the AC is on under automation, it sends power off. It also sends power off on a hard limit
+   (`HARD_SOC_FLOOR`, `BATT_VOLTAGE`), even during a boost, preset or manual hold.
 2. **Faikout daily auto-off** (`auto0`, optional, the owner's call). The AC turns itself off at a set time even if the whole
    Cerbo is down.
 3. **The Tuya plug**, left on permanently after cutover, as a hard emergency kill.
@@ -107,7 +129,7 @@ acceptable range (above 26, below 19); the overnight compressor starts above 26.
 |---|---|---|---|---|
 | **DRY** (damp guard) | humidity ≥ **65 %** (Inkbird 4 while fresh; the aircon's head sensor reads ~20 % lower), room comfortable (not needing heat or cooling), SOC ≥ 90 %, spare solar ≥ 700 W or curtailed | humidity > 55 %, room ≥ 19 °C, SOC ≥ 85 % | dry mode at the room temperature | Owner: mould is an ongoing problem; target 50–55 % (30 % is drier than comfortable). If the room needs heat or cooling those win (both dry the air). Runs whether or not anyone is home. |
 
-**Forecast (Open-Meteo, today; terms in agreements-terms #14).** Hot day (max ≥ 30 °C): pre-cool from 93 %
+**Forecast (Open-Meteo, today; its free tier is for non-commercial use, data CC BY 4.0).** Hot day (max ≥ 30 °C): pre-cool from 93 %
 SOC with 1000 W spare, and "needs cooling" from 25 °C. Mild day (max < 24 °C): no pre-cooling. Cold winter day
 (max < 14 °C): pre-heat from 93 %. Warm winter day (≥ 20 °C): no pre-heat. Dull day (< 12 MJ/m² sun): comfort
 needs 3 % more battery. A missing, stale (> 12 h) or wrong-date forecast changes nothing. Reasons show on the
@@ -203,9 +225,10 @@ They show the logic's behaviour, not real comfort numbers.
 | `stale` (feed dies 11:00) | AC off at ~11:02 and kept off |
 | `replay` (real 11–12 Oct farm data) | Night 24 °C from 21:38 to 05:00 (SOC ≥ 85 %), cool 24 °C at 07:56, SOAK 22 °C at 08:33, handed over to NIGHT at 16:00 without stopping. **5 commands in 24 h.** (This replays the uncooled house's temps and doesn't subtract the AC's own draw from the battery, so it shows *when* v2 acts, not the outcome.) |
 
-`node --test test/*.test.js` runs 45 tests (plus `python3 test/test_learn.py`). They cover every guard, hysteresis, min-run, min-off, manual hold, boost,
+`node --test test/*.test.js` runs 85 tests (plus `python3 test/test_remote.py`). They cover every guard, hysteresis, min-run, min-off, manual hold, boost,
 the load cap, the stale-sunset fallback, dry-run isolation, offline/anomaly de-duplication, the watchdog, flow wiring and the replay.
-Mutation check: removing the stale guard, the SOC floor or min-off each makes tests fail.
+Mutation check: removing the stale guard, the SOC floor or min-off each makes tests fail; so does removing the hard-limit
+guard from the dispatcher or from the watchdog.
 
 ## 9. Making it modular (more loads later)
 

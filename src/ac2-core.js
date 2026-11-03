@@ -20,6 +20,7 @@ const TIER_ORDER = ['soak', 'comfort', 'dry', 'morning', 'eco', 'evening', 'nigh
 const DAY_TIERS = ['soak', 'comfort', 'dry', 'morning', 'eco'];
 const NIGHT_TIERS = ['evening', 'night', 'night_fan'];
 const HOLD_GUARD_NAMES = { soc_floor: 'SOC_FLOOR', load_cap: 'LOAD_CAP', night_soc: 'NIGHT_SOC_FLOOR' };
+const HARD_GUARDS = ['HARD_SOC_FLOOR', 'BATT_VOLTAGE'];   // always apply, whatever manual.guards_in_hold says
 
 function isNum(x) { return typeof x === 'number' && isFinite(x); }
 function hhmmToMin(s) { const p = String(s).split(':'); return Number(p[0]) * 60 + Number(p[1]); }
@@ -70,6 +71,7 @@ function normalizeHw(p, now) {
     hw_mode: typeof p.mode === 'string' ? p.mode : null,       // HW dispatcher: DISPATCH | LOCKOUT
     hw_on: p.hwState === 'on',
     sunset_ms: p.sunset_iso ? Date.parse(p.sunset_iso) : null,
+    batt_v: isNum(p.batt_v) ? p.batt_v : null,                 // battery voltage, only needed if battery.voltage_floor_v is set
   };
 }
 
@@ -427,6 +429,8 @@ function decide(cfg, inp, memIn, now) {
   const guards = [];
   if (!solarOk) guards.push('STALE_SOLAR');
   else {
+    const hard = hardBreach(cfg, solar);              // src/ac2-limits.js: no setting goes below these, holds included
+    if (hard) guards.push(hard);
     const floor = m.mode === 'BOOST' ? cfg.battery.boost_soc_floor_pct : cfg.battery.soc_floor_pct;
     if (solar.soc < floor) guards.push('SOC_FLOOR');
     if (acOn && solar.load_w > cfg.load.cap_w && !hwDrawing) guards.push('LOAD_CAP');
@@ -471,7 +475,7 @@ function decide(cfg, inp, memIn, now) {
     want = { power: false }; tier = 'mode_off'; safety = true; resetLatches(m);
   } else if (inHold) {
     const allowed = function (g) { return cfg.manual.guards_in_hold.some(function (n) { return HOLD_GUARD_NAMES[n] === g; }); };
-    const holdGuards = guards.filter(allowed);
+    const holdGuards = guards.filter(function (g) { return allowed(g) || HARD_GUARDS.indexOf(g) >= 0; });
     if (isNight && solarOk && solar.soc < cfg.tiers.night.soc_off && allowed('NIGHT_SOC_FLOOR')) holdGuards.push('NIGHT_SOC_FLOOR');
     resetLatches(m);
     if (holdGuards.length) { want = { power: false }; tier = 'guard'; safety = true; reasons.push.apply(reasons, holdGuards); }

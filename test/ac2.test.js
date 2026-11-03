@@ -925,3 +925,119 @@ test('26 C: on a cold day a 24.5 C room heats to 26 on spare solar (unit 28), an
   const sent = drive(sim, fk, 30, { soc: 99, curtailed: true, surplus_smooth: 2500 });
   assert.ok(!sent.some((c) => c.mode === 'C'), JSON.stringify(sent));
 });
+
+// ---- hard limits (owner 2026-11-04, D9): no setting or override runs the battery below 50 % lead / 25 % lithium ----
+const L = require('../src/ac2-limits');
+const lastGuards = (sim) => { const out = sim.tick(); return out[2] ? out[2].payload.guards : null; };
+
+test('limits: the shipped config passes untouched (no clamps, no errors), so the farm behaves as before', () => {
+  const CFG = require('../config/ac2.config.json');
+  const r = L.clampConfig(CFG);
+  assert.deepStrictEqual(r.errors, []);
+  assert.deepStrictEqual(r.clamped, []);
+  assert.strictEqual(r.cfg.battery.soc_floor_pct, CFG.battery.soc_floor_pct);
+  assert.strictEqual(L.hardLimits(CFG).voltage_floor_v, null, 'no voltage floor unless one is configured');
+});
+
+test('limits: floors, voltage, inverter cap, compressor rest and stale ages are raised or lowered to the limits', () => {
+  const base = { battery: { soc_floor_pct: 10, boost_soc_floor_pct: -5 }, load: { cap_w: 9000, inverter_continuous_w: 5000 }, cycle: { min_off_s: 0 }, stale: { solar_max_age_s: 3600, ac_max_age_s: 99999 } };
+  let r = L.clampConfig(base);
+  assert.strictEqual(r.cfg.battery.soc_floor_pct, 50);
+  assert.strictEqual(r.cfg.battery.boost_soc_floor_pct, 50);
+  assert.strictEqual(r.cfg.load.cap_w, 3500, '70 % of a 5 kW inverter');
+  assert.strictEqual(r.cfg.cycle.min_off_s, 180);
+  assert.strictEqual(r.cfg.stale.solar_max_age_s, 600);
+  assert.strictEqual(r.cfg.stale.ac_max_age_s, 900);
+  assert.strictEqual(base.battery.soc_floor_pct, 10, 'the input is not changed');
+  r = L.clampConfig({ battery: { chemistry: 'lithium', soc_floor_pct: 10 } });
+  assert.strictEqual(r.cfg.battery.soc_floor_pct, 25);
+  r = L.clampConfig({ battery: { chemistry: 'LiFePO4', soc_floor_pct: 30 } });
+  assert.strictEqual(r.cfg.battery.soc_floor_pct, 50, 'an unknown chemistry gets the stricter lead floor');
+  assert.ok(r.errors[0].indexOf('chemistry') >= 0);
+  r = L.clampConfig({ battery: { system_v: 48, voltage_floor_v: 40 } });
+  assert.strictEqual(r.cfg.battery.voltage_floor_v, 46.8, '24 lead cells x 1.95 V');
+  r = L.clampConfig({ battery: { chemistry: 'lithium', system_v: 48, voltage_floor_v: 40 } });
+  assert.strictEqual(r.cfg.battery.voltage_floor_v, 45, '15 LiFePO4 cells x 3.0 V (the smaller 48 V bank)');
+  r = L.clampConfig({ battery: { system_v: 24, voltage_floor_v: 25 } });
+  assert.strictEqual(r.cfg.battery.voltage_floor_v, 25, 'a floor above the minimum is kept');
+  r = L.clampConfig({ battery: { voltage_floor_v: 'low' } });
+  assert.ok(r.errors[0].indexOf('voltage_floor_v') >= 0);
+});
+
+test('limits: 12 V systems and banks under 5 kWh are refused, and the build will not make a flow from them', () => {
+  assert.ok(L.clampConfig({ battery: { system_v: 12 } }).errors[0].indexOf('12 V') >= 0);
+  assert.ok(L.clampConfig({ battery: { capacity_kwh: 3.5 } }).errors[0].indexOf('5 kWh') >= 0);
+  assert.deepStrictEqual(L.clampConfig({ battery: { system_v: 48, capacity_kwh: 20 } }).errors, []);
+  assert.throws(() => build({ config: { battery: { system_v: 12 } }, quiet: true }), /hard limits/);
+});
+
+test('limits: an override that drops the SOC floor to 10 % still stops the AC below 50 % (lead)', () => {
+  const sim = newSim(at(10), { battery: { soc_floor_pct: 10, boost_soc_floor_pct: 10 } }), fk = new FakeFaikout({ home: 27 });
+  drive(sim, fk, 5);
+  assert.strictEqual(fk.s.power, true);
+  const sent = drive(sim, fk, 1, { soc: 49 });
+  assert.deepStrictEqual(sent[0], { power: false });
+  assert.ok(lastGuards(sim).indexOf('HARD_SOC_FLOOR') >= 0);
+});
+
+test('limits: a manual hold with every hold guard switched off is still cut at the hard floor', () => {
+  const sim = newSim(at(10), { battery: { soc_floor_pct: 10, boost_soc_floor_pct: 10 }, manual: { guards_in_hold: [] } }), fk = new FakeFaikout({ home: 27 });
+  drive(sim, fk, 5);
+  fk.s.temp = 26;                                    // someone uses the IR remote
+  let sent = drive(sim, fk, 5, { soc: 55 });
+  assert.strictEqual(sim.mem.tier, 'manual_hold');
+  assert.strictEqual(sent.length, 0, 'above the hard floor the hold is left alone');
+  sent = drive(sim, fk, 1, { soc: 45 });
+  assert.deepStrictEqual(sent[0], { power: false }, 'hard floor beats the hold');
+});
+
+test('limits: boost and presets cannot run below the hard floor either', () => {
+  let sim = newSim(at(20, 0), { battery: { soc_floor_pct: 10, boost_soc_floor_pct: 10 } }), fk = new FakeFaikout({ home: 30 });
+  sim.send('bsf/hotwater/status', hw(sim, { soc: 48, curtailed: false, surplus_smooth: -400 }));
+  let out = sim.send('bsf/ac2/cmd', { cmd: 'boost', minutes: 30 });
+  if (out && out[0]) fk.apply(out[0].payload);
+  drive(sim, fk, 2, { soc: 48, curtailed: false, surplus_smooth: -400 });
+  assert.strictEqual(fk.s.power, false, 'boost at 48 %');
+  sim = newSim(at(14, 0), { battery: { soc_floor_pct: 10 } }); fk = new FakeFaikout({ home: 18, power: false });
+  drive(sim, fk, 1, { soc: 48, curtailed: false, surplus_smooth: 0 });
+  sim.send('bsf/ac2/cmd', { cmd: 'preset', name: 'fresh', source: 'test' });
+  drive(sim, fk, 3, { soc: 48, curtailed: false, surplus_smooth: 0 });
+  assert.strictEqual(fk.s.power, false, 'even the fresh-air fan preset at 48 %');
+});
+
+test('limits: lithium may run down to 25 %, not below', () => {
+  const sim = newSim(at(10), { battery: { chemistry: 'lithium', soc_floor_pct: 10, boost_soc_floor_pct: 10 } }), fk = new FakeFaikout({ home: 27 });
+  drive(sim, fk, 5);
+  fk.s.temp = 26;                                    // hand hold, so the tiers' own soc_off thresholds don't stop it first
+  drive(sim, fk, 2, { soc: 30 });
+  assert.strictEqual(fk.s.power, true, '30 % is above the lithium floor');
+  const sent = drive(sim, fk, 1, { soc: 24 });
+  assert.deepStrictEqual(sent[0], { power: false });
+});
+
+test('limits: with a voltage floor set, a low or missing battery voltage stops the AC', () => {
+  const V = { battery: { system_v: 48, voltage_floor_v: 47 } };
+  let sim = newSim(at(10), V), fk = new FakeFaikout({ home: 27 });
+  drive(sim, fk, 5, { batt_v: 52.1 });
+  assert.strictEqual(fk.s.power, true, 'healthy voltage: runs as normal');
+  let sent = drive(sim, fk, 1, { batt_v: 46.5 });
+  assert.deepStrictEqual(sent[0], { power: false });
+  assert.ok(lastGuards(sim).indexOf('BATT_VOLTAGE') >= 0);
+  sim = newSim(at(10), V); fk = new FakeFaikout({ home: 27 });
+  sent = drive(sim, fk, 5);                          // solar state with no batt_v at all
+  assert.strictEqual(fk.s.power, false, 'never runs blind when a voltage floor is configured');
+  sim = newSim(at(10), { battery: { system_v: 48, voltage_floor_v: 30 } }); fk = new FakeFaikout({ home: 27 });
+  drive(sim, fk, 5, { batt_v: 46.0 });
+  assert.strictEqual(fk.s.power, false, 'a 30 V floor on 48 V lead is raised to 46.8 V');
+});
+
+test('watchdog: a hard limit forces OFF even in a boost or preset, as a second cut-off', () => {
+  const sim = newSim(at(10), { battery: { soc_floor_pct: 10, boost_soc_floor_pct: 10 } }), fk = new FakeFaikout({ home: 27 });
+  drive(sim, fk, 5);
+  sim.flowStore.ac2_mem.mode = 'BOOST';
+  assert.strictEqual(sim.watchdog(), null, 'healthy battery: the watchdog leaves a boost alone');
+  sim.send('bsf/hotwater/status', hw(sim, { soc: 40 }));
+  const w = sim.watchdog();
+  assert.deepStrictEqual(JSON.parse(w[0].payload), { power: false });
+  assert.ok(/HARD_SOC_FLOOR/.test(w[2].payload.msg));
+});
